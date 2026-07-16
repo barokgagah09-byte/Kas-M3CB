@@ -6,19 +6,15 @@
     <title>Dashboard Kas Organisasi</title>
     <!-- Tailwind CSS modern versi terbaru -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Google Fonts untuk font yang lebih clean -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
 <body class="bg-[#f8fafc] text-slate-800 pb-16">
 
-    <!-- Header / Navbar Modern -->
     <nav class="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
@@ -37,39 +33,22 @@
     </nav>
 
     <main class="max-w-6xl mx-auto px-6 mt-8">
-        
-        <!-- Dashboard Cards (Ringkasan Saldo) -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <!-- Pemasukan -->
             <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs relative overflow-hidden group">
-                <div class="absolute -right-4 -bottom-4 text-emerald-100/40 group-hover:scale-110 transition-transform">
-                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2v2a2 2 0 002 2h8a2 2 0 002-2v-2a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 3a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm3 4a1 1 0 100 2h3a1 1 0 100-2H9z" clip-rule="evenodd"></path></svg>
-                </div>
                 <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Pemasukan</p>
                 <p id="total-masuk" class="text-3xl font-extrabold text-emerald-600 mt-2">Rp 0</p>
             </div>
-            <!-- Pengeluaran -->
             <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs relative overflow-hidden group">
-                <div class="absolute -right-4 -bottom-4 text-rose-100/40 group-hover:scale-110 transition-transform">
-                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
-                </div>
                 <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Pengeluaran</p>
                 <p id="total-keluar" class="text-3xl font-extrabold text-rose-600 mt-2">Rp 0</p>
             </div>
-            <!-- Saldo Akhir -->
             <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-md relative overflow-hidden group">
-                <div class="absolute -right-4 -bottom-4 text-slate-800/80 group-hover:scale-110 transition-transform">
-                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path d="M8.433 7.418c.554-.589 1.448-.589 2.002 0l.207.22 1.258-.879-.208-.222a3.5 3.5 0 00-4.99 0l-.208.222 1.258.879.207-.22zM11.567 12.582a2.002 2.002 0 01-2.002 0l-.207-.22-1.258.879.208.222a3.5 3.5 0 004.99 0l.208-.222-1.258-.879-.207.22z"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v.184a4.535 4.535 0 00-1.676.662C6.602 12.234 6 13.009 6 14c0 .99.602 1.765 1.324 2.246A4.535 4.535 0 009 16.908V17a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 15.766 14 14.991 14 14c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 11.092v-.184a4.535 4.535 0 001.676-.662C13.398 9.766 14 8.991 14 8c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 5.092V5z" clip-rule="evenodd"></path></svg>
-                </div>
                 <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Sisa Saldo Kas</p>
                 <p id="saldo-akhir" class="text-3xl font-extrabold text-emerald-400 mt-2">Rp 0</p>
             </div>
         </div>
 
-        <!-- Tata Letak Dua Kolom -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <!-- Kolom Input (Form) -->
             <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs h-fit">
                 <div class="flex items-center gap-3 mb-6 border-b border-slate-50 pb-4">
                     <span class="p-2 bg-slate-50 text-slate-600 rounded-lg">✍️</span>
@@ -78,10 +57,15 @@
                 <form id="form-transaksi" class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Jenis Kas</label>
-                        <select id="jenis" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-700 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
-                            <option value="masuk">Pemasukan (Uang Masuk)</option>
+                        <select id="jenis" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-700 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" onchange="toggleNamaField()">
+                            <option value="masuk_anggota">Pemasukan dari Anggota</option>
+                            <option value="masuk_donatur">Pemasukan dari Donatur/Lain</option>
                             <option value="keluar">Pengeluaran (Uang Keluar)</option>
                         </select>
+                    </div>
+                    <div id="wrapper-nama">
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nama Anggota</label>
+                        <input type="text" id="nama" placeholder="Contoh: Budi" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nominal</label>
@@ -92,7 +76,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Keterangan / Keperluan</label>
-                        <input type="text" id="keterangan" required placeholder="Contoh: Kas bulanan barokah" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+                        <input type="text" id="keterangan" required placeholder="Contoh: Iuran bulanan" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Tanggal</label>
@@ -104,16 +88,21 @@
                 </form>
             </div>
 
-            <!-- Kolom Riwayat (Tabel) -->
             <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-xs">
                 <div class="flex justify-between items-center mb-6 border-b border-slate-50 pb-4">
                     <div class="flex items-center gap-3">
                         <span class="p-2 bg-slate-50 text-slate-600 rounded-lg">📜</span>
                         <h2 class="text-md font-bold text-slate-800">Riwayat Pembukuan</h2>
                     </div>
-                    <button onclick="hapusSemua()" class="text-xs text-rose-600 hover:text-rose-800 font-semibold bg-rose-50 hover:bg-rose-100 px-3 py-2 rounded-xl transition cursor-pointer">
-                        Hapus Semua Data
-                    </button>
+                    <div class="flex gap-2">
+                        <button onclick="bagikanKeWhatsApp()" class="text-xs text-emerald-600 hover:text-emerald-800 font-semibold bg-emerald-50 hover:bg-emerald-100 px-3 py-2 rounded-xl transition cursor-pointer flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.149-.198.297-.768.967-.942 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.453.13-.6.133-.133.297-.347.446-.521.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.521-.074-.149-.67-1.616-.917-2.214-.243-.583-.489-.556-.67-.556-.172-.026-.37-.026-.568-.026-.198 0-.518.074-.792.371-.274.297-1.045 1.02-1.045 2.489 0 1.468 1.069 2.875 1.218 3.074.148.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.273-.198-.57-.347m-5.421 7.403h-.004a6.55 6.55 0 0 1-3.344-.919l-.24-.144-2.494.654.665-2.433-.146-.251a6.56 6.56 0 0 1-.998-3.48c.002-3.623 2.955-6.574 6.579-6.574 1.756.07 3.407.683 4.647 1.916a6.564 6.564 0 0 1 1.921 4.638c-.002 3.624-2.956 6.575-6.582 6.575m3.793-4.854c-.661-.33-1.916-.889-2.215-.99-.299-.099-.518-.148-.737.148-.22.297-.852.99-1.046 1.188-.194.198-.372.222-.669.073-.298-.15-1.253-.463-2.39-1.474-.882-.788-1.478-1.76-1.652-2.058-.174-.297-.019-.453.129-.601.134-.134.298-.348.447-.522.148-.174.198-.298.297-.497.099-.198.049-.371-.024-.521-.074-.149-.669-1.616-.916-2.214-.242-.583-.489-.556-.67-.556-.172-.025-.37-.025-.568-.025-.197 0-.518.074-.792.371-.274.297-1.044 1.02-1.044 2.489 0 1.468 1.068 2.875 1.217 3.074.148.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.713.226 1.361.194 1.872.118.572-.085 1.759-.719 2.006-1.413.249-.694.249-1.289.174-1.413-.075-.124-.273-.198-.57-.347m-3.793-4.854z"></path></svg>
+                            Bagikan
+                        </button>
+                        <button onclick="hapusSemua()" class="text-xs text-rose-600 hover:text-rose-800 font-semibold bg-rose-50 hover:bg-rose-100 px-3 py-2 rounded-xl transition cursor-pointer">
+                            Hapus Semua
+                        </button>
+                    </div>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -127,16 +116,13 @@
                             </tr>
                         </thead>
                         <tbody id="tabel-body" class="divide-y divide-slate-100 text-sm text-slate-600">
-                            <!-- Diisi oleh JS -->
                         </tbody>
                     </table>
                     <div id="data-kosong" class="text-center py-16 text-slate-300 hidden">
-                        <svg class="w-16 h-16 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                         <p class="font-medium text-slate-400">Belum ada transaksi tercatat</p>
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
@@ -146,6 +132,17 @@
         const form = document.getElementById('form-transaksi');
         const tabelBody = document.getElementById('tabel-body');
         const dataKosong = document.getElementById('data-kosong');
+
+        function toggleNamaField() {
+            const jenis = document.getElementById('jenis').value;
+            const wrapperNama = document.getElementById('wrapper-nama');
+            if (jenis === 'masuk_anggota') {
+                wrapperNama.style.display = 'block';
+            } else {
+                wrapperNama.style.display = 'none';
+            }
+        }
+        toggleNamaField();
 
         function formatRupiah(angka) {
             return 'Rp ' + parseInt(angka).toLocaleString('id-ID');
@@ -163,9 +160,14 @@
                 dataTransaksi.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
 
                 dataTransaksi.forEach((item, index) => {
-                    const isMasuk = item.jenis === 'masuk';
+                    const isMasuk = item.jenis.startsWith('masuk');
                     if (isMasuk) totalMasuk += item.nominal;
                     else totalKeluar += item.nominal;
+
+                    let ketTeks = item.keterangan;
+                    if (item.nama) {
+                        ketTeks = `Dari: ${item.nama} - ${ketTeks}`;
+                    }
 
                     const row = document.createElement('tr');
                     row.className = "hover:bg-slate-50/50 transition-colors";
@@ -175,7 +177,7 @@
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${isMasuk ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-rose-50 text-rose-700 border border-rose-100'} mb-1">
                                 ${isMasuk ? 'Masuk' : 'Keluar'}
                             </span>
-                            <div class="font-semibold text-slate-800 text-sm">${item.keterangan}</div>
+                            <div class="font-semibold text-slate-800 text-sm">${ketTeks}</div>
                         </td>
                         <td class="py-4 text-right font-bold text-sm ${isMasuk ? 'text-emerald-600' : 'text-rose-600'}">
                             ${isMasuk ? '+' : '-'} ${formatRupiah(item.nominal)}
@@ -199,17 +201,43 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const jenis = document.getElementById('jenis').value;
+            const nama = document.getElementById('nama').value;
             const nominal = parseInt(document.getElementById('nominal').value);
             const keterangan = document.getElementById('keterangan').value;
             const tanggal = document.getElementById('tanggal').value;
 
-            dataTransaksi.push({ jenis, nominal, keterangan, tanggal });
+            dataTransaksi.push({ jenis, nama, nominal, keterangan, tanggal });
             localStorage.setItem('kas_organisasi', JSON.stringify(dataTransaksi));
 
+            document.getElementById('nama').value = '';
             document.getElementById('nominal').value = '';
             document.getElementById('keterangan').value = '';
             updateTampilan();
         });
+
+        function bagikanKeWhatsApp() {
+            let pesan = "📊 *Laporan Kas Organisasi*\n\n";
+            let totalMasuk = 0;
+            let totalKeluar = 0;
+
+            dataTransaksi.forEach(item => {
+                if (item.jenis.startsWith('masuk')) totalMasuk += item.nominal;
+                else totalKeluar += item.nominal;
+            });
+
+            pesan += `💰 Total Pemasukan: ${formatRupiah(totalMasuk)}\n`;
+            pesan += `💸 Total Pengeluaran: ${formatRupiah(totalKeluar)}\n`;
+            pesan += `💵 Saldo Akhir: ${formatRupiah(totalMasuk - totalKeluar)}\n\n`;
+            pesan += "Detail Transaksi:\n";
+
+            dataTransaksi.sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal)).forEach(item => {
+                const tanda = item.jenis.startsWith('masuk') ? '+' : '-';
+                pesan += `- [${item.tanggal}] ${item.jenis.startsWith('masuk') ? 'Masuk' : 'Keluar'} ${formatRupiah(item.nominal)} (${item.keterangan})\n`;
+            });
+
+            const linkWhatsApp = `https://wa.me/?text=${encodeURIComponent(pesan)}`;
+            window.open(linkWhatsApp, '_blank');
+        }
 
         function hapusTransaksi(index) {
             if (confirm("Hapus transaksi ini?")) {
