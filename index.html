@@ -30,17 +30,18 @@ button{background:#2196f3; color:#fff; border:none; font-weight:bold; cursor:poi
 button:hover{background:#1976d2;}
 .btn-wa{background:#25d366; font-weight:bold;}
 .btn-wa:hover{background:#1da851;}
-.btn-merah{background:#e53935;}
+.btn-merah{background:#e53935; padding:5px 8px; font-size:14px;}
 .btn-merah:hover{background:#c62828;}
 .btn-abu{background:#607d8b; margin-top:5px;}
 .btn-abu:hover{background:#455a64;}
 
 .cari{margin-bottom:12px;}
-table{width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; font-size:15px; margin-top:10px;}
-th,td{border:1px solid #e0e0e0; padding:10px 6px; text-align:center;}
-th{background:#f0f4f8; font-weight:bold; color:#1a365d;}
+table{width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; font-size:16px; margin-top:10px;}
+th,td{border:1px solid #e0e0e0; padding:12px 8px; text-align:left;}
+th{background:#f0f4f8; font-weight:bold; color:#1a365d; text-align:center;}
 .sembunyi{display:none;}
 .salin-berhasil{color:#2e7d32; font-weight:bold; text-align:center; margin-top:5px;}
+.nomor-urut{width:40px; text-align:center; font-weight:bold;}
 </style>
 </head>
 <body>
@@ -55,7 +56,7 @@ th{background:#f0f4f8; font-weight:bold; color:#1a365d;}
 (Sementara diperkirakan sekitar <b>Rp 300.000</b> — harap disesuaikan ya)
 </div>
 
-<!-- ⚙️ ISI SALDO AWAL OLEH BENDAHARA -->
+<!-- ⚙️ ISI SALDO AWAL -->
 <div class="box">
 <h3>⚙️ Saldo Awal Kas (Diisi Bendahara)</h3>
 <div class="row">
@@ -63,6 +64,36 @@ th{background:#f0f4f8; font-weight:bold; color:#1a365d;}
 <input type="number" id="saldoAwal" min="0" placeholder="Contoh: 300000">
 </div>
 <button onclick="simpanSaldoAwal()">✅ Simpan Saldo Awal</button>
+</div>
+
+<!-- 👥 TAMBAH ANGGOTA -->
+<div class="box">
+<h3>👥 Tambah Anggota Baru</h3>
+<input type="hidden" id="editAnggotaId">
+<div class="row">
+<label>Nama Lengkap Anggota</label>
+<input type="text" id="namaAnggota" placeholder="Contoh: H Barok" required>
+</div>
+<button onclick="simpanAnggota()">💾 Simpan Anggota</button>
+</div>
+
+<!-- 📑 DAFTAR ANGGOTA & ISI DONASI -->
+<div class="box">
+<h3>📑 Daftar Anggota & Jumlah Donasi</h3>
+<div class="cari">
+<input type="text" id="cariAnggota" placeholder="🔍 Cari nama anggota..." oninput="tampilDaftarAnggota()">
+</div>
+<table id="tabelAnggota">
+<thead>
+<tr>
+<th class="nomor-urut">No</th>
+<th>Nama Anggota</th>
+<th style="width:180px;">Jumlah Donasi (Rp)</th>
+<th style="width:100px;">Aksi</th>
+</tr>
+</thead>
+<tbody id="isiTabelAnggota"></tbody>
+</table>
 </div>
 
 <!-- 📊 RINGKASAN & BAGIKAN -->
@@ -73,78 +104,19 @@ th{background:#f0f4f8; font-weight:bold; color:#1a365d;}
 <p id="pesanSalin" class="sembunyi salin-berhasil">✅ Tersalin! Langsung tempel di WhatsApp Grup ya</p>
 </div>
 
-<!-- 👥 DAFTAR ANGGOTA & ISI DONASI -->
+<!-- 🎁 DONASI LAIN & PENGELOUARAN -->
 <div class="box">
-<h3>👥 Tambah / Ubah Anggota & Jumlah Donasi</h3>
-<input type="hidden" id="editAnggotaId">
+<h3>🎁 Donasi Lain & Pengeluaran</h3>
 <div class="row">
-<label>Nomor Anggota</label>
-<input type="text" id="nomorAnggota" placeholder="Contoh: A-001" required>
-</div>
-<div class="row">
-<label>Nama Lengkap Anggota</label>
-<input type="text" id="namaAnggota" placeholder="Nama Lengkap" required>
+<label>Nama Pemberi / Keterangan</label>
+<input type="text" id="namaLuar" placeholder="Contoh: Bantuan Pak Udin">
 </div>
 <div class="row">
-<label>Jumlah Donasi / Iuran (Rp)</label>
-<input type="number" id="nominalAnggota" min="0" placeholder="0" required>
+<label>Nominal (Rp)</label>
+<input type="number" id="nomLuar" min="0" placeholder="0">
 </div>
-<button onclick="simpanAnggota()">💾 Simpan Anggota</button>
-</div>
-
-<div class="box">
-<h3>📑 Daftar Anggota & Donasi</h3>
-<div class="cari">
-<input type="text" id="cariAnggota" placeholder="🔍 Cari nomor / nama anggota..." oninput="tampilDaftarAnggota()">
-</div>
-<table id="tabelAnggota">
-<thead>
-<tr>
-<th>No. Anggota</th>
-<th>Nama Anggota</th>
-<th>Jumlah Donasi</th>
-<th>Aksi</th>
-</tr>
-</thead>
-<tbody id="isiTabelAnggota"></tbody>
-</table>
-</div>
-
-<!-- 🎁 DONASI BUKAN ANGGOTA -->
-<div class="box">
-<h3>🎁 Donasi dari Bukan Anggota</h3>
-<div class="row">
-<label>Nama Pemberi Donasi</label>
-<input type="text" id="namaLuar" placeholder="Nama / Anonim">
-</div>
-<div class="row">
-<label>Keterangan</label>
-<input type="text" id="ketLuar" placeholder="Contoh: Bantuan Khusus">
-</div>
-<div class="row">
-<label>Nominal Donasi (Rp)</label>
-<input type="number" id="nominalLuar" min="0" placeholder="0" required>
-</div>
-<button onclick="simpanDonasiLuar()">💾 Simpan Donasi</button>
-</div>
-
-<!-- 📤 PENGELOUARAN -->
-<div class="box">
-<h3>📤 Catat Pengeluaran</h3>
-<div class="row">
-<label>Keperluan Pengeluaran</label>
-<input type="text" id="ketKeluar" placeholder="Contoh: Sewa Tempat / ATK">
-</div>
-<div class="row">
-<label>Nominal Pengeluaran (Rp)</label>
-<input type="number" id="nomKeluar" min="0" placeholder="0" required>
-</div>
-<button onclick="simpanPengeluaran()">💾 Simpan Pengeluaran</button>
-</div>
-
-<div class="box">
-<h3>📑 Daftar Donasi Luar & Pengeluaran</h3>
-<div id="daftarLain"></div>
+<button onclick="simpanLain()">💾 Simpan</button>
+<div id="daftarLain" style="margin-top:15px;"></div>
 </div>
 
 <!-- 💾 BACKUP -->
@@ -156,152 +128,118 @@ th{background:#f0f4f8; font-weight:bold; color:#1a365d;}
 </div>
 
 <script>
-const KUNCI_DATA = 'KasM3CBKasarunAwal';
-let dataUtama = {
-  saldoAwal: 0,
-  anggota: [],
-  donasiLuar: [],
-  pengeluaran: []
-};
+const KUNCI_DATA = 'KasM3CBPalingSederhana';
+let dataUtama = { saldoAwal:0, anggota:[], lain:[] };
 
 function muatData() {
-  const dataLama = localStorage.getItem(KUNCI_DATA);
-  if(dataLama) try{dataUtama = JSON.parse(dataLama);}catch(e){}
-  document.getElementById('saldoAwal').value = dataUtama.saldoAwal || '';
+  const lama = localStorage.getItem(KUNCI_DATA);
+  if(lama) try{dataUtama = JSON.parse(lama);}catch(e){}
+  document.getElementById('saldoAwal').value = dataUtama.saldoAwal||'';
   tampilSemua();
 }
-function simpanPermanen() { localStorage.setItem(KUNCI_DATA, JSON.stringify(dataUtama)); }
-function tampilSemua() { tampilRekap(); tampilDaftarAnggota(); tampilDaftarLain(); }
-function formatRp(nilai) { return 'Rp ' + Number(nilai||0).toLocaleString('id-ID'); }
+function simpanPermanen(){localStorage.setItem(KUNCI_DATA, JSON.stringify(dataUtama));}
+function tampilSemua(){tampilRekap(); tampilDaftarAnggota(); tampilLain();}
+function formatRp(nilai){return 'Rp ' + Number(nilai||0).toLocaleString('id-ID');}
 
-// SALDO AWAL DIISI BENDAHARA
+// SALDO AWAL
 function simpanSaldoAwal(){
-  const nilai = Number(document.getElementById('saldoAwal').value)||0;
-  if(nilai<=0) return alert('Masukkan angka saldo awal yang benar ya!');
-  if(dataUtama.saldoAwal>0 && !confirm('Sudah ada saldo awal tercatat. Yakin ingin mengganti angka ini?')) return;
-  dataUtama.saldoAwal = nilai;
+  const n = Number(document.getElementById('saldoAwal').value)||0;
+  if(n<=0) return alert('Masukkan angka saldo awal!');
+  if(dataUtama.saldoAwal>0 && !confirm('Ganti saldo awal yang sudah ada?')) return;
+  dataUtama.saldoAwal = n; simpanPermanen(); tampilRekap(); alert('✅ Saldo awal tersimpan!');
+}
+
+// TAMBAH ANGGOTA HANYA NAMA SAJA
+function simpanAnggota(){
+  const idEdit = document.getElementById('editAnggotaId').value;
+  const nama = document.getElementById('namaAnggota').value.trim();
+  if(!nama) return alert('Isi nama anggota dulu!');
+  if(idEdit){
+    const i = dataUtama.anggota.findIndex(a=>a.id==idEdit);
+    if(i>=0) dataUtama.anggota[i].nama = nama;
+  }else{
+    dataUtama.anggota.push({id:Date.now(), nama:nama, nominal:0});
+  }
+  simpanPermanen(); document.getElementById('editAnggotaId').value=''; document.getElementById('namaAnggota').value='';
+  tampilSemua(); alert('✅ Anggota ditambahkan! Silakan isi donasinya di tabel di bawah.');
+}
+
+// TAMPIL DAFTAR & ISI DONASI LANGSUNG DI TABEL
+function tampilDaftarAnggota(){
+  const kata = document.getElementById('cariAnggota').value.toLowerCase();
+  let html=''; let no=1;
+  dataUtama.anggota.filter(a=>a.nama.toLowerCase().includes(kata)).forEach(a=>{
+    html += `<tr>
+      <td class="nomor-urut">${no}</td>
+      <td>${a.nama}</td>
+      <td><input type="number" min="0" value="${a.nominal||0}" onchange="ubahNominal(${a.id}, this.value)" style="padding:6px;"></td>
+      <td><button class="btn-merah" onclick="hapusAnggota(${a.id})">Hapus</button></td>
+    </tr>`; no++;
+  });
+  document.getElementById('isiTabelAnggota').innerHTML = html || '<tr><td colspan="4" style="text-align:center; color:#888;">Belum ada anggota</td></tr>';
+}
+function ubahNominal(id, nilai){
+  const a = dataUtama.anggota.find(x=>x.id==id);
+  if(!a) return;
+  a.nominal = Number(nilai)||0;
   simpanPermanen(); tampilRekap();
-  alert('✅ Saldo Awal Kas sudah disimpan!');
+}
+function hapusAnggota(id){
+  if(confirm('Yakin hapus anggota ini?')){
+    dataUtama.anggota = dataUtama.anggota.filter(x=>x.id!=id);
+    simpanPermanen(); tampilSemua();
+  }
 }
 
 // RINGKASAN & BAGIKAN
-function buatTeksRekap() {
-  const namaBulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-  const thnSekarang = new Date().getFullYear();
-  const blnSekarang = String(new Date().getMonth()+1).padStart(2,'0');
-  const namaBlnSekarang = namaBulan[new Date().getMonth()];
-
+function buatTeksRekap(){
+  const thn = new Date().getFullYear();
   const totalAnggota = dataUtama.anggota.reduce((s,a)=>s+Number(a.nominal),0);
-  const totalLuar = dataUtama.donasiLuar.reduce((s,a)=>s+Number(a.nominal),0);
-  const totalPemasukan = totalAnggota + totalLuar;
-  const totalKeluar = dataUtama.pengeluaran.reduce((s,a)=>s+Number(a.nominal),0);
-  const saldoAkhir = (dataUtama.saldoAwal||0) + totalPemasukan - totalKeluar;
+  const totalLain = dataUtama.lain.reduce((s,a)=>s+Number(a.nominal),0);
+  const totalKeluar = dataUtama.lain.filter(a=>a.jenis=='keluar').reduce((s,a)=>s+Number(a.nominal),0);
+  const saldo = (dataUtama.saldoAwal||0) + totalAnggota + totalLain - totalKeluar;
+
+  let daftarNama = ''; let urut=1;
+  dataUtama.anggota.forEach(a=>{daftarNama += `${urut}. ${a.nama} = ${formatRp(a.nominal)}\n`; urut++;});
 
   return `
 📊 LAPORAN KAS M3CB - KELURAHAN KASUNYATAN
 🗓 Per Tanggal: ${new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⚙️ SALDO AWAL KAS: ${formatRp(dataUtama.saldoAwal)}
+⚙️ SALDO AWAL: ${formatRp(dataUtama.saldoAwal)}
 
+👥 DAFTAR ANGGOTA & DONASI:
+${daftarNama}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📅 BULAN ${namaBlnSekarang.toUpperCase()} ${thnSekarang}
-✅ Pemasukan : ${formatRp(totalAnggota + totalLuar)}
-❌ Pengeluaran: ${formatRp(totalKeluar)}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📝 KESELURUHAN
 ✅ Total Donasi Anggota: ${formatRp(totalAnggota)}
-✅ Total Donasi Luar: ${formatRp(totalLuar)}
-✅ Total Seluruh Pemasukan: ${formatRp(totalPemasukan)}
-❌ Total Seluruh Pengeluaran: ${formatRp(totalKeluar)}
-💰 SALDO KAS SAAT INI: ${formatRp(saldoAkhir)}
-
-👥 Jumlah Anggota Terdaftar: ${dataUtama.anggota.length} orang
+💰 SALDO SAAT INI: ${formatRp(saldo)}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Laporan Keuangan Resmi M3CB Kelurahan Kasunyatan
+Laporan Resmi M3CB Kelurahan Kasunyatan
   `.trim();
 }
 function salinDanBagikan(){
-  const teks = buatTeksRekap();
-  navigator.clipboard.writeText(teks).then(()=>{
-    const pesan = document.getElementById('pesanSalin');
-    pesan.classList.remove('sembunyi');
-    setTimeout(()=>pesan.classList.add('sembunyi'),4000);
-  }).catch(()=>alert('Gagal salin! Salin manual:\n\n'+teks));
+  navigator.clipboard.writeText(buatTeksRekap()).then(()=>{
+    const p = document.getElementById('pesanSalin'); p.classList.remove('sembunyi'); setTimeout(()=>p.classList.add('sembunyi'),4000);
+  }).catch(()=>alert('Salin manual:\n\n'+buatTeksRekap()));
 }
-function tampilRekap() {
+function tampilRekap(){
   const totalAnggota = dataUtama.anggota.reduce((s,a)=>s+Number(a.nominal),0);
-  const totalLuar = dataUtama.donasiLuar.reduce((s,a)=>s+Number(a.nominal),0);
-  const totalPemasukan = totalAnggota + totalLuar;
-  const totalKeluar = dataUtama.pengeluaran.reduce((s,a)=>s+Number(a.nominal),0);
-  const saldoAkhir = (dataUtama.saldoAwal||0) + totalPemasukan - totalKeluar;
-
+  const totalLain = dataUtama.lain.reduce((s,a)=>s+Number(a.nominal),0);
+  const totalKeluar = dataUtama.lain.filter(a=>a.jenis=='keluar').reduce((s,a)=>s+Number(a.nominal),0);
+  const saldo = (dataUtama.saldoAwal||0) + totalAnggota + totalLain - totalKeluar;
   document.getElementById('isiRekap').innerHTML = `
-  <div class="baris-rekap"><span>⚙️ Saldo Awal (Diisi Bendahara)</span><span class="biru">${formatRp(dataUtama.saldoAwal)}</span></div>
-  <hr style="margin:6px 0; border:1px solid #eee;">
-  <div class="baris-rekap"><span>✅ Total Donasi Anggota</span><span class="hijau">${formatRp(totalAnggota)}</span></div>
-  <div class="baris-rekap"><span>✅ Total Donasi Luar</span><span class="hijau">${formatRp(totalLuar)}</span></div>
-  <div class="baris-rekap"><span>❌ Total Pengeluaran</span><span class="merah">${formatRp(totalKeluar)}</span></div>
-  <hr style="margin:6px 0; border:1px solid #eee;">
-  <div class="baris-rekap"><span>💰 SALDO KAS SAAT INI</span><span class="${saldoAkhir>=0?'biru':'merah'}">${formatRp(saldoAkhir)}</span></div>
-  <div class="baris-rekap"><span>Jumlah Anggota Terdaftar</span><span>${dataUtama.anggota.length} orang</span></div>
+  <div class="baris-rekap"><span>⚙️ Saldo Awal</span><span class="biru">${formatRp(dataUtama.saldoAwal)}</span></div>
+  <div class="baris-rekap"><span>✅ Total Donasi Semua Anggota</span><span class="hijau">${formatRp(totalAnggota)}</span></div>
+  <div class="baris-rekap"><span>💰 Saldo Kas Sekarang</span><span class="${saldo>=0?'biru':'merah'}">${formatRp(saldo)}</span></div>
   `;
 }
 
-// KELOLA ANGGOTA & DONASINYA
-function simpanAnggota() {
-  const idEdit = document.getElementById('editAnggotaId').value;
-  const noAnggota = document.getElementById('nomorAnggota').value.trim();
-  const nama = document.getElementById('namaAnggota').value.trim();
-  const nominal = Number(document.getElementById('nominalAnggota').value)||0;
-  if(!noAnggota || !nama || nominal<=0) return alert('Lengkapi Nomor, Nama & Jumlah Donasi!');
-
-  const dataBaru = { id: idEdit||Date.now(), nomorAnggota: noAnggota, nama: nama, nominal: nominal, tgl: new Date().toISOString().slice(0,10) };
-  if(idEdit){const i = dataUtama.anggota.findIndex(a=>a.id==idEdit); if(i>=0) dataUtama.anggota[i] = dataBaru;}
-  else dataUtama.anggota.push(dataBaru);
-  simpanPermanen(); bersihFormAnggota(); tampilSemua(); alert('✅ Anggota & Donasi Tersimpan!');
-}
-function tampilDaftarAnggota() {
-  const kata = document.getElementById('cariAnggota').value.toLowerCase();
-  let html='';
-  dataUtama.anggota.filter(a=>a.nomorAnggota.toLowerCase().includes(kata) || a.nama.toLowerCase().includes(kata))
-  .forEach(a=>{
-    html += `<tr><td>${a.nomorAnggota}</td><td>${a.nama}</td><td>${formatRp(a.nominal)}</td><td><button style="padding:5px; font-size:14px;" onclick="editAnggota(${a.id})">Ubah</button> <button class="btn-merah" style="padding:5px; font-size:14px;" onclick="hapusAnggota(${a.id})">Hapus</button></td></tr>`;
-  });
-  document.getElementById('isiTabelAnggota').innerHTML = html || '<tr><td colspan="4" style="color:#888;">Belum ada anggota</td></tr>';
-}
-function editAnggota(id){const a=dataUtama.anggota.find(x=>x.id==id); if(!a)return; document.getElementById('editAnggotaId').value=a.id; document.getElementById('nomorAnggota').value=a.nomorAnggota; document.getElementById('namaAnggota').value=a.nama; document.getElementById('nominalAnggota').value=a.nominal;}
-function hapusAnggota(id){if(confirm('Yakin hapus anggota ini?')){dataUtama.anggota=dataUtama.anggota.filter(x=>x.id!=id); simpanPermanen(); tampilSemua();}}
-function bersihFormAnggota(){document.getElementById('editAnggotaId').value=''; document.getElementById('nomorAnggota').value=''; document.getElementById('namaAnggota').value=''; document.getElementById('nominalAnggota').value='';}
-
-// LAINNYA
-function simpanDonasiLuar(){
-  const nama = document.getElementById('namaLuar').value.trim() || 'Anonim';
-  const ket = document.getElementById('ketLuar').value.trim();
-  const nom = Number(document.getElementById('nominalLuar').value)||0;
-  if(nom<=0) return alert('Isi nominal donasi!');
-  dataUtama.donasiLuar.unshift({id:Date.now(), nama, keterangan:ket, nominal:nom, tgl:new Date().toISOString().slice(0,10)});
-  simpanPermanen(); document.getElementById('namaLuar').value=''; document.getElementById('ketLuar').value=''; document.getElementById('nominalLuar').value=''; tampilSemua(); alert('✅ Dicatat!');
-}
-function simpanPengeluaran(){
-  const ket = document.getElementById('ketKeluar').value.trim();
-  const nom = Number(document.getElementById('nomKeluar').value)||0;
-  if(!ket || nom<=0) return alert('Lengkapi keterangan & nominal!');
-  dataUtama.pengeluaran.unshift({id:Date.now(), keterangan:ket, nominal:nom, tgl:new Date().toISOString().slice(0,10)});
-  simpanPermanen(); document.getElementById('ketKeluar').value=''; document.getElementById('nomKeluar').value=''; tampilSemua(); alert('✅ Dicatat!');
-}
-function tampilDaftarLain(){
-  let html='<h4 style="margin:10px 0 5px; color:#2e7d32;">🎁 Donasi Bukan Anggota</h4>';
-  if(dataUtama.donasiLuar.length==0) html+='<p style="color:#888;">Belum ada</p>';
-  dataUtama.donasiLuar.forEach(i=>html += `<div class="baris-rekap"><span>${i.tgl} | ${i.nama} — ${i.keterangan||'Donasi Umum'}</span><span class="hijau">${formatRp(i.nominal)}</span></div>`);
-  html+='<hr style="margin:15px 0;"><h4 style="margin:10px 0 5px; color:#c62828;">📤 Pengeluaran</h4>';
-  if(dataUtama.pengeluaran.length==0) html+='<p style="color:#888;">Belum ada</p>';
-  dataUtama.pengeluaran.forEach(i=>html += `<div class="baris-rekap"><span>${i.tgl} | ${i.keterangan}</span><span class="merah">${formatRp(i.nominal)}</span></div>`);
-  document.getElementById('daftarLain').innerHTML = html;
-}
+// LAINNYA & BACKUP
+function simpanLain(){const n=document.getElementById('namaLuar').value.trim(); const m=Number(document.getElementById('nomLuar').value)||0; if(!n||m<=0)return alert('Lengkapi data!'); dataUtama.lain.push({id:Date.now(),keterangan:n,nominal:m,jenis:m<0?'keluar':'masuk'}); simpanPermanen(); document.getElementById('namaLuar').value=''; document.getElementById('nomLuar').value=''; tampilSemua();}
+function tampilLain(){let h=''; dataUtama.lain.forEach(i=>h+=`<div class="baris-rekap"><span>${i.keterangan}</span><span class="${i.jenis=='keluar'?'merah':'hijau'}">${formatRp(i.nominal)}</span></div>`); document.getElementById('daftarLain').innerHTML=h;}
 function unduhBackup(){const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(dataUtama,null,2)],{type:'application/json'})); a.download=`Backup_Kas_M3CB_${new Date().toISOString().slice(0,10)}.json`; a.click();}
-function pulihkanBackup(){const f=document.getElementById('fileBackup').files[0]; if(!f)return alert('Pilih file dulu!'); const baca=new FileReader(); baca.onload=e=>{try{const d=JSON.parse(e.target.result); if(!d.anggota)throw''; if(confirm('Ganti semua data sekarang?')){dataUtama=d; simpanPermanen(); tampilSemua(); alert('✅ Pulih Berhasil!')}}catch{alert('❌ File salah/rusak!')}}; baca.readAsText(f);}
+function pulihkanBackup(){const f=document.getElementById('fileBackup').files[0]; if(!f)return alert('Pilih file dulu!'); const baca=new FileReader(); baca.onload=e=>{try{const d=JSON.parse(e.target.result); if(!d.anggota)throw''; if(confirm('Ganti semua data?')){dataUtama=d; simpanPermanen(); tampilSemua(); alert('✅ Berhasil!')}}catch{alert('❌ File tidak valid!')}}; baca.readAsText(f);}
 
 muatData();
 </script>
