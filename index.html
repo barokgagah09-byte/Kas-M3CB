@@ -3,245 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kas M3CB - Kelurahan KASUNYATAN</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>Dashboard Kas Organisasi</title>
+    <!-- Tailwind CSS modern versi terbaru -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts untuk font yang lebih clean -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .tab-aktif { background: #4f46e5; color: white; }
-        .tab-nonaktif { background: #f1f5f9; color: #475569; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen pb-12">
-    <header class="bg-white border-b border-slate-100 sticky top-0 z-10 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="p-2.5 bg-blue-600 text-white rounded-2xl shadow-md shadow-blue-600/20"><i data-lucide="landmark" class="w-6 h-6"></i></div>
+<body class="bg-[#f8fafc] text-slate-800 pb-16">
+
+    <!-- Header / Navbar Modern -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-tight">KAS M3CB</h1>
-                    <p class="text-xs text-slate-500">Kelurahan KASUNYATAN</p>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900">Barok Barokah</h1>
+                    <p class="text-xs text-slate-400 font-medium">Sistem Kas Finansial</p>
                 </div>
             </div>
+            <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">
+                ● Live & Secure Local Storage
+            </span>
         </div>
-    </header>
+    </nav>
 
-    <main class="max-w-6xl mx-auto px-4 mt-6">
-        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-6">
-            <p class="text-sm text-amber-800 flex items-center gap-2"><i data-lucide="info" class="w-4 h-4"></i> Saldo Awal diisi Bendahara sesuai catatan asli</p>
-        </div>
-
-        <div class="flex flex-col sm:flex-row gap-3 mb-6 justify-between">
-            <div class="flex gap-2 flex-wrap">
-                <button onclick="ubahTampilan('daftar')" id="tab-daftar" class="px-3 py-2 rounded-xl text-sm font-semibold tab-aktif">Anggota</button>
-                <button onclick="ubahTampilan('masuk')" id="tab-masuk" class="px-3 py-2 rounded-xl text-sm font-semibold tab-nonaktif">Pemasukan Lain</button>
-                <button onclick="ubahTampilan('keluar')" id="tab-keluar" class="px-3 py-2 rounded-xl text-sm font-semibold tab-nonaktif">Pengeluaran</button>
-                <button onclick="ubahTampilan('ringkasan')" id="tab-ringkasan" class="px-3 py-2 rounded-xl text-sm font-semibold tab-nonaktif">Ringkasan</button>
-            </div>
-            <div class="flex gap-2 flex-wrap">
-                <button onclick="salinLaporanGrup()" class="px-3 py-2 bg-emerald-50 text-emerald-600 text-xs font-semibold rounded-xl hover:bg-emerald-100 flex items-center gap-1">
-                    <i data-lucide="copy" class="w-4 h-4"></i> Salin Laporan
-                </button>
-                <button onclick="unduhBackup()" class="px-3 py-2 bg-blue-50 text-blue-600 text-xs font-semibold rounded-xl hover:bg-blue-100 flex items-center gap-1">
-                    <i data-lucide="download" class="w-4 h-4"></i> Cadangan
-                </button>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div class="bg-white p-4 rounded-2xl border shadow-sm">
-                <p class="text-xs text-slate-400 mb-1">Saldo Awal</p>
-                <h3 id="nilaiSaldoAwal" class="text-lg font-bold text-blue-600">Rp 0</h3>
-            </div>
-            <div class="bg-white p-4 rounded-2xl border shadow-sm">
-                <p class="text-xs text-slate-400 mb-1">Donasi Anggota</p>
-                <h3 id="nilaiDonasi" class="text-lg font-bold text-emerald-600">Rp 0</h3>
-            </div>
-            <div class="bg-white p-4 rounded-2xl border shadow-sm">
-                <p class="text-xs text-slate-400 mb-1">Pemasukan Lain</p>
-                <h3 id="nilaiMasukLain" class="text-lg font-bold text-teal-600">Rp 0</h3>
-            </div>
-            <div class="bg-white p-4 rounded-2xl border shadow-sm">
-                <p class="text-xs text-slate-400 mb-1">Saldo Akhir</p>
-                <h3 id="nilaiSaldoAkhir" class="text-lg font-bold text-slate-800">Rp 0</h3>
-            </div>
-        </div>
-
-        <!-- DAFTAR ANGGOTA -->
-        <div id="area-daftar" class="area-tampilan">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-4 bg-white p-5 rounded-2xl border shadow-sm">
-                    <h3 class="font-bold mb-3">Tambah Anggota & Saldo Awal</h3>
-                    <input type="text" id="inputNamaAnggota" placeholder="Nama anggota" class="w-full p-2.5 border rounded-xl mb-3 text-sm">
-                    <button onclick="simpanAnggotaBaru()" class="w-full bg-blue-600 text-white py-2 rounded-xl text-sm mb-4">Simpan Anggota</button>
-                    <hr class="my-3">
-                    <input type="number" id="inputSaldoAwal" min="0" placeholder="Saldo awal kas (Rp)" class="w-full p-2.5 border rounded-xl mb-3 text-sm">
-                    <button onclick="simpanSaldoAwal()" class="w-full bg-slate-800 text-white py-2 rounded-xl text-sm">Simpan Saldo Awal</button>
+    <main class="max-w-6xl mx-auto px-6 mt-8">
+        
+        <!-- Dashboard Cards (Ringkasan Saldo) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Pemasukan -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs relative overflow-hidden group">
+                <div class="absolute -right-4 -bottom-4 text-emerald-100/40 group-hover:scale-110 transition-transform">
+                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2v2a2 2 0 002 2h8a2 2 0 002-2v-2a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 3a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm3 4a1 1 0 100 2h3a1 1 0 100-2H9z" clip-rule="evenodd"></path></svg>
                 </div>
-                <div class="lg:col-span-8 bg-white p-5 rounded-2xl border shadow-sm">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="font-bold">Daftar Anggota</h3>
-                        <input type="text" id="cariNama" placeholder="🔍 Cari nama..." oninput="tampilDaftarAnggota()" class="p-2 border rounded-xl text-sm w-44">
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Pemasukan</p>
+                <p id="total-masuk" class="text-3xl font-extrabold text-emerald-600 mt-2">Rp 0</p>
+            </div>
+            <!-- Pengeluaran -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs relative overflow-hidden group">
+                <div class="absolute -right-4 -bottom-4 text-rose-100/40 group-hover:scale-110 transition-transform">
+                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                </div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Pengeluaran</p>
+                <p id="total-keluar" class="text-3xl font-extrabold text-rose-600 mt-2">Rp 0</p>
+            </div>
+            <!-- Saldo Akhir -->
+            <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-md relative overflow-hidden group">
+                <div class="absolute -right-4 -bottom-4 text-slate-800/80 group-hover:scale-110 transition-transform">
+                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path d="M8.433 7.418c.554-.589 1.448-.589 2.002 0l.207.22 1.258-.879-.208-.222a3.5 3.5 0 00-4.99 0l-.208.222 1.258.879.207-.22zM11.567 12.582a2.002 2.002 0 01-2.002 0l-.207-.22-1.258.879.208.222a3.5 3.5 0 004.99 0l.208-.222-1.258-.879-.207.22z"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v.184a4.535 4.535 0 00-1.676.662C6.602 12.234 6 13.009 6 14c0 .99.602 1.765 1.324 2.246A4.535 4.535 0 009 16.908V17a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 15.766 14 14.991 14 14c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 11.092v-.184a4.535 4.535 0 001.676-.662C13.398 9.766 14 8.991 14 8c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 5.092V5z" clip-rule="evenodd"></path></svg>
+                </div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Sisa Saldo Kas</p>
+                <p id="saldo-akhir" class="text-3xl font-extrabold text-emerald-400 mt-2">Rp 0</p>
+            </div>
+        </div>
+
+        <!-- Tata Letak Dua Kolom -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Kolom Input (Form) -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs h-fit">
+                <div class="flex items-center gap-3 mb-6 border-b border-slate-50 pb-4">
+                    <span class="p-2 bg-slate-50 text-slate-600 rounded-lg">✍️</span>
+                    <h2 class="text-md font-bold text-slate-800">Transaksi Baru</h2>
+                </div>
+                <form id="form-transaksi" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Jenis Kas</label>
+                        <select id="jenis" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-700 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+                            <option value="masuk">Pemasukan (Uang Masuk)</option>
+                            <option value="keluar">Pengeluaran (Uang Keluar)</option>
+                        </select>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-slate-50">
-                                <tr>
-                                    <th class="p-2 w-10">No</th>
-                                    <th class="p-2 text-left">Nama</th>
-                                    <th class="p-2 w-36 text-center">Donasi (Rp)</th>
-                                    <th class="p-2 w-16 text-center">Hapus</th>
-                                </tr>
-                            </thead>
-                            <tbody id="isiTabelAnggota"></tbody>
-                        </table>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nominal</label>
+                        <div class="relative">
+                            <span class="absolute left-3.5 top-3.5 text-sm font-semibold text-slate-400">Rp</span>
+                            <input type="number" id="nominal" required min="1" placeholder="0" class="w-full pl-10 p-3 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-800 font-medium focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Keterangan / Keperluan</label>
+                        <input type="text" id="keterangan" required placeholder="Contoh: Kas bulanan barokah" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Tanggal</label>
+                        <input type="date" id="tanggal" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+                    </div>
+                    <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 px-4 rounded-xl transition shadow-xs cursor-pointer">
+                        Simpan Transaksi
+                    </button>
+                </form>
+            </div>
+
+            <!-- Kolom Riwayat (Tabel) -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-xs">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-50 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="p-2 bg-slate-50 text-slate-600 rounded-lg">📜</span>
+                        <h2 class="text-md font-bold text-slate-800">Riwayat Pembukuan</h2>
+                    </div>
+                    <button onclick="hapusSemua()" class="text-xs text-rose-600 hover:text-rose-800 font-semibold bg-rose-50 hover:bg-rose-100 px-3 py-2 rounded-xl transition cursor-pointer">
+                        Hapus Semua Data
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-slate-400 text-xs font-bold uppercase tracking-wider border-b border-slate-50">
+                                <th class="pb-3 pt-1">Tanggal</th>
+                                <th class="pb-3 pt-1">Detail Transaksi</th>
+                                <th class="pb-3 pt-1 text-right">Nominal</th>
+                                <th class="pb-3 pt-1 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabel-body" class="divide-y divide-slate-100 text-sm text-slate-600">
+                            <!-- Diisi oleh JS -->
+                        </tbody>
+                    </table>
+                    <div id="data-kosong" class="text-center py-16 text-slate-300 hidden">
+                        <svg class="w-16 h-16 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        <p class="font-medium text-slate-400">Belum ada transaksi tercatat</p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- PEMASUKAN LAINNYA -->
-        <div id="area-masuk" class="area-tampilan hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-4 bg-white p-5 rounded-2xl border shadow-sm">
-                    <h3 class="font-bold mb-3 flex items-center gap-2"><i data-lucide="plus-circle" class="w-5 h-5 text-teal-500"></i> Catat Pemasukan Lain</h3>
-                    <p class="text-xs text-slate-500 mb-3">Contoh: sumbangan warga, bantuan instansi, hasil penjualan dll</p>
-                    <input type="text" id="ketMasukLain" placeholder="Keterangan asal uang" class="w-full p-2.5 border rounded-xl mb-3 text-sm">
-                    <input type="number" id="nomMasukLain" min="1" placeholder="Jumlah uang masuk (Rp)" class="w-full p-2.5 border rounded-xl mb-3 text-sm">
-                    <button onclick="simpanPemasukanLain()" class="w-full bg-teal-600 text-white py-2 rounded-xl text-sm">Simpan Pemasukan</button>
-                </div>
-                <div class="lg:col-span-8 bg-white p-5 rounded-2xl border shadow-sm">
-                    <h3 class="font-bold mb-3">Daftar Semua Pemasukan Lain</h3>
-                    <div id="daftarMasukLain"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PENGELUARAN -->
-        <div id="area-keluar" class="area-tampilan hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-4 bg-white p-5 rounded-2xl border shadow-sm">
-                    <h3 class="font-bold mb-3 flex items-center gap-2"><i data-lucide="minus-circle" class="w-5 h-5 text-rose-500"></i> Catat Pengeluaran</h3>
-                    <p class="text-xs text-slate-500 mb-3">Hanya untuk uang yang dibelanjakan/dikeluarkan</p>
-                    <input type="text" id="ketPengeluaran" placeholder="Keperluan pengeluaran" class="w-full p-2.5 border rounded-xl mb-3 text-sm">
-                    <input type="number" id="nomPengeluaran" min="1" placeholder="Jumlah uang keluar (Rp)" class="w-full p-2.5 border rounded-xl mb-3 text-sm">
-                    <button onclick="simpanPengeluaran()" class="w-full bg-rose-600 text-white py-2 rounded-xl text-sm">Simpan Pengeluaran</button>
-                </div>
-                <div class="lg:col-span-8 bg-white p-5 rounded-2xl border shadow-sm">
-                    <h3 class="font-bold mb-3">Daftar Semua Pengeluaran</h3>
-                    <div id="daftarPengeluaran"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- RINGKASAN -->
-        <div id="area-ringkasan" class="area-tampilan hidden">
-            <div class="bg-white p-5 rounded-2xl border shadow-sm" id="isiLaporanRingkas"></div>
-        </div>
-
-        <div class="mt-6 bg-white p-5 rounded-2xl border shadow-sm">
-            <h3 class="font-bold mb-2">Pulihkan Data Cadangan</h3>
-            <input type="file" id="filePulihkan" accept=".json" class="text-sm mb-2">
-            <button onclick="pulihkanDariFile()" class="px-4 py-2 bg-slate-100 rounded-xl text-sm hover:bg-slate-200">Muat Data</button>
         </div>
     </main>
 
     <script>
-        const KUNCI_SIMPAN = 'KasM3CBResmiTerpisah';
-        let dataUtama = { saldoAwal:0, anggota:[], pemasukanLain:[], pengeluaran:[] };
+        document.getElementById('tanggal').valueAsDate = new Date();
+        let dataTransaksi = JSON.parse(localStorage.getItem('kas_organisasi')) || [];
+        const form = document.getElementById('form-transaksi');
+        const tabelBody = document.getElementById('tabel-body');
+        const dataKosong = document.getElementById('data-kosong');
 
-        function formatRupiah(nilai) { return new Intl.NumberFormat('id-ID', { style:'currency', currency:'IDR', minimumFractionDigits:0 }).format(nilai||0); }
-        window.onload = () => {
-            const lama = localStorage.getItem(KUNCI_SIMPAN);
-            if(lama) try{dataUtama = JSON.parse(lama);}catch(e){}
-            lucide.createIcons();
-            document.getElementById('inputSaldoAwal').value = dataUtama.saldoAwal||'';
-            tampilSemua();
-        };
-        function simpanPermanen() { localStorage.setItem(KUNCI_SIMPAN, JSON.stringify(dataUtama)); }
-        function ubahTampilan(tipe) {
-            ['daftar','masuk','keluar','ringkasan'].forEach(t=>{
-                document.getElementById(`tab-${t}`).className = t===tipe ? "px-3 py-2 rounded-xl text-sm font-semibold tab-aktif" : "px-3 py-2 rounded-xl text-sm font-semibold tab-nonaktif";
-                document.getElementById(`area-${t}`).classList.toggle('hidden', t!==tipe);
-            });
+        function formatRupiah(angka) {
+            return 'Rp ' + parseInt(angka).toLocaleString('id-ID');
         }
 
-        // Hitung ulang semua angka otomatis
-        function hitungRekap() {
-            const totalDonasi = dataUtama.anggota.reduce((s,a)=>s+Number(a.nominal||0),0);
-            const totalMasukLain = dataUtama.pemasukanLain.reduce((s,a)=>s+Number(a.nominal||0),0);
-            const totalKeluar = dataUtama.pengeluaran.reduce((s,a)=>s+Number(a.nominal||0),0);
-            const saldoAkhir = dataUtama.saldoAwal + totalDonasi + totalMasukLain - totalKeluar;
+        function updateTampilan() {
+            tabelBody.innerHTML = '';
+            let totalMasuk = 0;
+            let totalKeluar = 0;
 
-            document.getElementById('nilaiSaldoAwal').textContent = formatRupiah(dataUtama.saldoAwal);
-            document.getElementById('nilaiDonasi').textContent = formatRupiah(totalDonasi);
-            document.getElementById('nilaiMasukLain').textContent = formatRupiah(totalMasukLain);
-            document.getElementById('nilaiSaldoAkhir').textContent = formatRupiah(saldoAkhir);
+            if (dataTransaksi.length === 0) {
+                dataKosong.classList.remove('hidden');
+            } else {
+                dataKosong.classList.add('hidden');
+                dataTransaksi.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+
+                dataTransaksi.forEach((item, index) => {
+                    const isMasuk = item.jenis === 'masuk';
+                    if (isMasuk) totalMasuk += item.nominal;
+                    else totalKeluar += item.nominal;
+
+                    const row = document.createElement('tr');
+                    row.className = "hover:bg-slate-50/50 transition-colors";
+                    row.innerHTML = `
+                        <td class="py-4 text-xs font-semibold text-slate-400">${item.tanggal}</td>
+                        <td class="py-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${isMasuk ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-rose-50 text-rose-700 border border-rose-100'} mb-1">
+                                ${isMasuk ? 'Masuk' : 'Keluar'}
+                            </span>
+                            <div class="font-semibold text-slate-800 text-sm">${item.keterangan}</div>
+                        </td>
+                        <td class="py-4 text-right font-bold text-sm ${isMasuk ? 'text-emerald-600' : 'text-rose-600'}">
+                            ${isMasuk ? '+' : '-'} ${formatRupiah(item.nominal)}
+                        </td>
+                        <td class="py-4 text-center">
+                            <button onclick="hapusTransaksi(${index})" class="text-slate-300 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition duration-150 cursor-pointer">
+                                🗑️
+                            </button>
+                        </td>
+                    `;
+                    tabelBody.appendChild(row);
+                });
+            }
+
+            const saldoAkhir = totalMasuk - totalKeluar;
+            document.getElementById('total-masuk').innerText = formatRupiah(totalMasuk);
+            document.getElementById('total-keluar').innerText = formatRupiah(totalKeluar);
+            document.getElementById('saldo-akhir').innerText = formatRupiah(saldoAkhir);
         }
 
-        // Fungsi saldo awal & anggota
-        function simpanSaldoAwal() {
-            const n = Number(document.getElementById('inputSaldoAwal').value)||0;
-            if(n<=0) return alert('Isi angka saldo awal!');
-            if(dataUtama.saldoAwal>0 && !confirm('Ganti saldo awal yang sudah ada?')) return;
-            dataUtama.saldoAwal = n; simpanPermanen(); hitungRekap(); alert('✅ Tersimpan!');
-        }
-        function simpanAnggotaBaru() {
-            const nama = document.getElementById('inputNamaAnggota').value.trim();
-            if(!nama) return alert('Isi nama anggota!');
-            dataUtama.anggota.push({id:Date.now(), nama, nominal:0});
-            simpanPermanen(); document.getElementById('inputNamaAnggota').value=''; tampilSemua(); alert('✅ Anggota ditambahkan!');
-        }
-        function tampilDaftarAnggota() {
-            const kata = document.getElementById('cariNama').value.toLowerCase();
-            let html='', no=1;
-            dataUtama.anggota.filter(a=>a.nama.toLowerCase().includes(kata)).forEach(a=>{
-                html += `<tr class="hover:bg-slate-50"><td class="p-2 text-center">${no}</td><td class="p-2">${a.nama}</td>
-                <td class="p-2 text-center"><input type="number" min="0" value="${a.nominal||0}" onchange="ubahDonasi(${a.id},this.value)" class="w-24 p-1 border rounded text-sm text-center"></td>
-                <td class="p-2 text-center"><button onclick="hapusAnggota(${a.id})" class="text-rose-500 text-xs">Hapus</button></td></tr>`; no++;
-            });
-            document.getElementById('isiTabelAnggota').innerHTML = html || '<tr><td colspan="4" class="p-4 text-center text-slate-400">Belum ada anggota</td></tr>';
-        }
-        function ubahDonasi(id, nilai) { const a=dataUtama.anggota.find(x=>x.id===id); if(!a)return; a.nominal=Number(nilai)||0; simpanPermanen(); hitungRekap(); }
-        function hapusAnggota(id) { if(confirm('Yakin hapus?')){dataUtama.anggota=dataUtama.anggota.filter(x=>x.id!==id); simpanPermanen(); tampilSemua();} }
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const jenis = document.getElementById('jenis').value;
+            const nominal = parseInt(document.getElementById('nominal').value);
+            const keterangan = document.getElementById('keterangan').value;
+            const tanggal = document.getElementById('tanggal').value;
 
-        // Fungsi Pemasukan Lainnya (khusus uang bertambah selain anggota)
-        function simpanPemasukanLain() {
-            const ket = document.getElementById('ketMasukLain').value.trim();
-            const nom = Number(document.getElementById('nomMasukLain').value)||0;
-            if(!ket||nom<=0) return alert('Lengkapi keterangan & jumlah uang masuk!');
-            dataUtama.pemasukanLain.unshift({id:Date.now(), keterangan:ket, nominal:nom});
-            simpanPermanen(); document.getElementById('ketMasukLain').value=''; document.getElementById('nomMasukLain').value=''; tampilSemua(); alert('✅ Pemasukan dicatat, kas bertambah!');
-        }
-        function tampilPemasukanLain() {
-            let html='';
-            if(dataUtama.pemasukanLain.length===0){html='<p class="text-center text-slate-400 py-6">Belum ada catatan</p>';}
-            else dataUtama.pemasukanLain.forEach(p=>html += `<div class="flex justify-between items-center py-2 px-3 border-b last:border-0 hover:bg-slate-50 rounded-xl"><span class="text-sm">${p.keterangan}</span><span class="font-bold text-teal-600">${formatRupiah(p.nominal)}</span><button onclick="hapusMasukLain(${p.id})" class="text-rose-500 text-xs ml-2">Hapus</button></div>`);
-            document.getElementById('daftarMasukLain').innerHTML = html;
-        }
-        function hapusMasukLain(id) { if(confirm('Yakin hapus catatan ini? Kas akan berkurang otomatis.')){dataUtama.pemasukanLain=dataUtama.pemasukanLain.filter(x=>x.id!==id); simpanPermanen(); tampilSemua();} }
+            dataTransaksi.push({ jenis, nominal, keterangan, tanggal });
+            localStorage.setItem('kas_organisasi', JSON.stringify(dataTransaksi));
 
-        // Fungsi Pengeluaran (hanya uang berkurang)
-        function simpanPengeluaran() {
-            const ket = document.getElementById('ketPengeluaran').value.trim();
-            const nom = Number(document.getElementById('nomPengeluaran').value)||0;
-            if(!ket||nom<=0) return alert('Lengkapi data pengeluaran!');
-            dataUtama.pengeluaran.unshift({id:Date.now(), keterangan:ket, nominal:nom});
-            simpanPermanen(); document.getElementById('ketPengeluaran').value=''; document.getElementById('nomPengeluaran').value=''; tampilSemua(); alert('✅ Pengeluaran dicatat!');
-        }
-        function tampilPengeluaran() {
-            let html='';
-            if(dataUtama.pengeluaran.length===0){html='<p class="text-center text-slate-400 py-6">Belum ada catatan</p>';}
-            else dataUtama.pengeluaran.forEach(p=>html += `<div class="flex justify-between items-center py-2 px-3 border-b last:border-0 hover:bg-slate-50 rounded-xl"><span class="text-sm">${p.keterangan}</span><span class="font-bold text-rose-600">${formatRupiah(p.nominal)}</span><button onclick="hapusKeluar(${p.id})" class="text-rose-500 text-xs ml-2">Hapus</button></div>`);
-            document.getElementById('daftarPengeluaran').innerHTML = html;
-        }
-        function hapusKeluar(id) { if(confirm('Yakin hapus? Kas akan bertambah kembali.')){dataUtama.pengeluaran=dataUtama.pengeluaran.filter(x=>x.id!==id); simpanPermanen(); tampilSemua();} }
+            document.getElementById('nominal').value = '';
+            document.getElementById('keterangan').value = '';
+            updateTampilan();
+        });
 
-        function tampilSemua() { hitungRekap(); tampilDaftarAnggota(); tampilPemasukanLain(); tampilPengeluaran(); tampilLaporan(); }
-        function tampilLaporan() { /* ...isi laporan lengkap sama seperti sebelumnya... */ }
-        function salinLaporanGrup() { /* ...salin laporan lengkap termasuk pemasukan lain... */ }
-        function unduhBackup() { /* ... */ }
-        function pulihkanDariFile() { /* ... */ }
+        function hapusTransaksi(index) {
+            if (confirm("Hapus transaksi ini?")) {
+                dataTransaksi.splice(index, 1);
+                localStorage.setItem('kas_organisasi', JSON.stringify(dataTransaksi));
+                updateTampilan();
+            }
+        }
+
+        function hapusSemua() {
+            if (confirm("Tindakan ini akan menghapus semua database kas. Lanjutkan?")) {
+                dataTransaksi = [];
+                localStorage.removeItem('kas_organisasi');
+                updateTampilan();
+            }
+        }
+
+        updateTampilan();
     </script>
 </body>
 </html>
