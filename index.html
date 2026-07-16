@@ -4,435 +4,202 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Kas M3CB - Kelurahan KASUNYATAN</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 *{box-sizing:border-box; font-family:Arial,sans-serif; margin:0; padding:0;}
 html{font-size:18px;}
-body{max-width:100%; padding:15px 8px; background:#f0f4f8;}
+body{max-width:100%; padding:15px 8px; background:#f5f7fa;}
+
 .judul{text-align:center; color:#1a365d; margin-bottom:15px; padding-bottom:10px; border-bottom:2px solid #2196f3;}
-.judul h1{font-size:24px; margin-bottom:5px;}
-.judul p{font-size:15px; color:#555;}
+.judul h1{font-size:22px; margin-bottom:5px;}
 
-.menu{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;}
-.menu button{flex:1; min-width:110px; padding:12px 8px; font-size:16px; font-weight:bold; border:none; border-radius:8px; background:#e0e7ff; color:#1a365d; cursor:pointer; transition:0.2s;}
-.menu button.aktif{background:#2196f3; color:#fff;}
-.menu button:hover{background:#b3c1ff;}
-
-.konten{display:none;}
-.konten.aktif{display:block;}
 .box{background:#fff; padding:18px; border-radius:12px; margin-bottom:18px; box-shadow:0 2px 6px rgba(0,0,0,0.06);}
-.box h3{color:#1a365d; margin-bottom:12px; font-size:20px;}
+.box h3{color:#1a365d; margin-bottom:12px; font-size:19px;}
 .baris-rekap{display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid #eee; font-size:17px;}
-.baris-rekap:last-child{border:none; font-weight:bold; font-size:19px;}
+.baris-rekap:last-child{border:none; font-weight:bold; font-size:18px;}
 .hijau{color:#2e7d32;}
 .merah{color:#c62828;}
 .biru{color:#1565c0;}
-.oranye{color:#ef6c00;}
 
 .row{margin-bottom:13px;}
 label{display:block; margin-bottom:5px; font-weight:bold; color:#333; font-size:16px;}
-input,select,textarea,button{width:100%; padding:11px 10px; font-size:17px; border:1px solid #ccc; border-radius:8px;}
-input:focus,select:focus{outline:none; border-color:#2196f3;}
-button{background:#2196f3; color:#fff; border:none; font-weight:bold; margin-top:5px; cursor:pointer;}
+input,textarea,button{width:100%; padding:11px 10px; font-size:17px; border:1px solid #ccc; border-radius:8px;}
+input:focus{outline:none; border-color:#2196f3;}
+button{background:#2196f3; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-top:5px;}
 button:hover{background:#1976d2;}
-.btn-hijau{background:#2e7d32;}
-.btn-hijau:hover{background:#27672b;}
-.btn-oranye{background:#ef6c00;}
-.btn-oranye:hover{background:#d85c00;}
-.btn-abu{background:#607d8b;}
+.btn-merah{background:#e53935;}
+.btn-merah:hover{background:#c62828;}
+.btn-abu{background:#607d8b; margin-top:5px;}
 .btn-abu:hover{background:#455a64;}
 
-.cari-filter{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;}
-.cari-filter input,.cari-filter select{flex:1; min-width:140px;}
-
+.cari{margin-bottom:12px;}
 table{width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; font-size:15px; margin-top:10px;}
 th,td{border:1px solid #e0e0e0; padding:10px 6px; text-align:center;}
 th{background:#f0f4f8; font-weight:bold; color:#1a365d;}
-.baik{background:#e8f5e9;}
-.kurang{background:#fff3cd;}
-.sembunyi{display:none;}
-.grafik-container{height:320px; margin-top:10px;}
-.pengingat{background:#fff3cd; border:1px solid #ffc107; padding:12px; border-radius:8px; margin-bottom:12px; font-size:16px;}
 </style>
 </head>
 <body>
 
 <div class="judul">
 <h1>🏛️ KAS M3CB - Kelurahan KASUNYATAN</h1>
-<p>Versi 1.2 | Data Tersimpan Aman di Perangkat Anda</p>
+<p style="font-size:15px; color:#555;">Catatan Donasi & Keuangan</p>
 </div>
 
-<div class="menu">
-<button onclick="bukaMenu('dashboard')" class="aktif">📊 Dashboard</button>
-<button onclick="bukaMenu('masuk')">💰 Pemasukan</button>
-<button onclick="bukaMenu('keluar')">📤 Pengeluaran</button>
-<button onclick="bukaMenu('donatur')">🤝 Donatur</button>
-<button onclick="bukaMenu('laporan')">📑 Laporan</button>
-<button onclick="bukaMenu('pengaturan')">⚙️ Backup/Lainnya</button>
-</div>
-
-<!-- ========== DASHBOARD ========== -->
-<div id="dashboard" class="konten aktif">
+<!-- 📋 RINGKASAN LAPORAN -->
 <div class="box">
-<h3>Ringkasan Kas Keseluruhan</h3>
-<div id="isiDashboard"></div>
+<h3>📊 Ringkasan Kas Keseluruhan</h3>
+<div id="isiRekapUtama"></div>
 </div>
 
+<!-- ➕ TAMBAH PENGELUARAN -->
 <div class="box">
-<h3>⚠️ Pengingat Donatur Belum Bayar</h3>
-<div id="isiPengingat"></div>
+<h3>📤 Catat Pengeluaran</h3>
+<div class="row">
+<label>Keterangan Keperluan</label>
+<input type="text" id="ketKeluar" placeholder="Contoh: Konsumsi Rapat / ATK">
+</div>
+<div class="row">
+<label>Nominal Pengeluaran (Rp)</label>
+<input type="number" id="nomKeluar" min="0" placeholder="0">
+</div>
+<button onclick="simpanPengeluaran()">💾 Simpan Pengeluaran</button>
 </div>
 
+<!-- ➕ TAMBAH ANGGOTA / PEMASUKAN -->
 <div class="box">
-<h3>Grafik Pemasukan & Pengeluaran Tahun Ini</h3>
-<div class="grafik-container"><canvas id="grafikUtama"></canvas></div>
+<h3>➕ Tambah / Ubah Anggota & Donasi</h3>
+<input type="hidden" id="editId">
+<div class="row">
+<label>Nama Lengkap Anggota</label>
+<input type="text" id="nama" placeholder="Masukkan nama" required>
+</div>
+<div class="row">
+<label>Nomor WhatsApp</label>
+<input type="tel" id="hp" placeholder="Contoh: 08123456789">
+</div>
+<div class="row">
+<label>Nominal Donasi / Pemasukan (Rp)</label>
+<input type="number" id="nominal" min="0" placeholder="0" required>
+</div>
+<div class="row">
+<label>Keterangan Tambahan</label>
+<input type="text" id="keterangan" placeholder="Contoh: Bulan Juli / Bantuan Khusus">
+</div>
+<button onclick="simpanData()">💾 Simpan Data</button>
 </div>
 
+<!-- 📑 DAFTAR LENGKAP -->
 <div class="box">
-<h3>📈 Statistik Tahunan</h3>
-<div id="isiStatistik"></div>
+<h3>📑 Daftar Anggota & Donasi</h3>
+<div class="cari">
+<input type="text" id="cariNama" placeholder="🔍 Cari nama anggota..." oninput="tampilDaftar()">
 </div>
-</div>
-
-<!-- ========== PEMASUKAN ========== -->
-<div id="masuk" class="konten">
-<div class="box">
-<h3>Tambah Pemasukan Baru</h3>
-<div class="row"><label>Tanggal</label><input type="date" id="tglMasuk"></div>
-<div class="row"><label>Sumber / Keterangan</label><input type="text" id="ketMasuk" placeholder="Contoh: Donasi Bapak A / Iuran Bulanan"></div>
-<div class="row"><label>Nominal (Rp)</label><input type="number" id="nomMasuk" min="0" placeholder="0"></div>
-<div class="row"><label>Donatur (jika ada)</label><select id="donaturMasuk"><option value="">-- Bukan dari Daftar Donatur --</option></select></div>
-<button onclick="simpanMasuk()">💾 Simpan Pemasukan</button>
-</div>
-
-<div class="box">
-<h3>Daftar Semua Pemasukan</h3>
-<div class="cari-filter">
-<input type="text" id="cariMasuk" placeholder="Cari keterangan..." oninput="tampilMasuk()">
-<select id="filterBulanMasuk" onchange="tampilMasuk()"><option value="">Semua Bulan</option></select>
-</div>
-<table id="tabelMasuk"><thead><tr><th>Tanggal</th><th>Keterangan</th><th>Nominal</th><th>Donatur</th><th>Aksi</th></tr></thead><tbody></tbody></table>
-</div>
-</div>
-
-<!-- ========== PENGELUARAN ========== -->
-<div id="keluar" class="konten">
-<div class="box">
-<h3>Tambah Pengeluaran Baru</h3>
-<div class="row"><label>Tanggal</label><input type="date" id="tglKeluar"></div>
-<div class="row"><label>Keperluan / Keterangan</label><input type="text" id="ketKeluar" placeholder="Contoh: Sewa Tempat / ATK"></div>
-<div class="row"><label>Nominal (Rp)</label><input type="number" id="nomKeluar" min="0" placeholder="0"></div>
-<button onclick="simpanKeluar()">💾 Simpan Pengeluaran</button>
-</div>
-
-<div class="box">
-<h3>Daftar Semua Pengeluaran</h3>
-<div class="cari-filter">
-<input type="text" id="cariKeluar" placeholder="Cari keterangan..." oninput="tampilKeluar()">
-<select id="filterBulanKeluar" onchange="tampilKeluar()"><option value="">Semua Bulan</option></select>
-</div>
-<table id="tabelKeluar"><thead><tr><th>Tanggal</th><th>Keterangan</th><th>Nominal</th><th>Aksi</th></tr></thead><tbody></tbody></table>
-</div>
-</div>
-
-<!-- ========== DONATUR ========== -->
-<div id="donatur" class="konten">
-<div class="box">
-<h3>Tambah / Ubah Data Donatur</h3>
-<input type="hidden" id="editDonaturId">
-<div class="row"><label>Nama Lengkap</label><input type="text" id="namaDonatur" placeholder="Nama Lengkap" required></div>
-<div class="row"><label>Nomor HP</label><input type="tel" id="hpDonatur" placeholder="08xx-xxxx-xxxx"></div>
-<div class="row"><label>Target Donasi Bulanan (Rp)</label><input type="number" id="targetDonatur" min="0" value="0"></div>
-<div class="row"><label>Keterangan Tambahan</label><textarea id="ketDonatur" rows="2"></textarea></div>
-<button onclick="simpanDonatur()">💾 Simpan Donatur</button>
+<table id="tabelAnggota">
+<thead>
+<tr>
+<th>Nama</th>
+<th>No. WA</th>
+<th>Nominal Donasi</th>
+<th>Keterangan</th>
+<th>Hubungi</th>
+<th>Aksi</th>
+</tr>
+</thead>
+<tbody id="isiTabel"></tbody>
+</table>
 </div>
 
 <div class="box">
-<h3>Daftar Semua Donatur</h3>
-<div class="cari-filter">
-<input type="text" id="cariDonatur" placeholder="Cari nama..." oninput="tampilDonatur()">
-<select id="filterStatusDonatur" onchange="tampilDonatur()"><option value="">Semua Status</option><option value="lunas">Sudah Lunas</option><option value="belum">Belum Lunas</option></select>
-</div>
-<table id="tabelDonatur"><thead><tr><th>Nama</th><th>HP</th><th>Target</th><th>Sudah Bayar</th><th>Status</th><th>Konfirmasi WA</th><th>Aksi</th></tr></thead><tbody></tbody></table>
-</div>
+<h3>📑 Daftar Pengeluaran</h3>
+<div id="daftarPengeluaran"></div>
 </div>
 
-<!-- ========== LAPORAN ========== -->
-<div id="laporan" class="konten">
+<!-- 💾 BACKUP -->
 <div class="box">
-<h3>Pilih Periode Laporan</h3>
-<div class="cari-filter">
-<select id="lapTahun" onchange="muatLaporan()"></select>
-<select id="lapBulan" onchange="muatLaporan()"><option value="">Seluruh Tahun</option></select>
-</div>
-<button class="btn-hijau" onclick="eksporExcel()">📥 Ekspor File Excel (.csv)</button>
-</div>
-<div class="box"><h3>Ringkasan Periode</h3><div id="isiLaporan"></div></div>
-<div class="box"><h3>Rincian Transaksi</h3><div id="isiRincianLaporan"></div></div>
-</div>
-
-<!-- ========== PENGATURAN & BACKUP ========== -->
-<div id="pengaturan" class="konten">
-<div class="box">
-<h3>💾 Backup Data (Simpan File)</h3>
-<p style="font-size:16px; margin-bottom:10px;">Simpan file ini secara berkala agar aman jika ganti HP/hapus data browser.</p>
-<button class="btn-hijau" onclick="unduhBackup()">📄 Unduh File Backup JSON</button>
-</div>
-<div class="box">
-<h3>📥 Pulihkan Data (Muat Backup)</h3>
-<p style="font-size:16px; margin-bottom:10px;">Pilih file backup yang pernah Anda unduh sebelumnya.</p>
-<input type="file" id="fileBackup" accept=".json">
-<button class="btn-oranye" onclick="pulihkanBackup()">⚠️ Pulihkan Data dari File</button>
-</div>
-<div class="box">
-<h3>ℹ️ Informasi Aplikasi</h3>
-<p style="font-size:16px;">Kas M3CB Kelurahan KASUNYATAN<br>Versi: 1.2<br>Semua data tersimpan di penyimpanan HP Anda sendiri.</p>
-</div>
+<h3>💾 Backup Data</h3>
+<button class="btn-hijau" onclick="unduhBackup()">📄 Unduh File Backup</button>
+<input type="file" id="fileBackup" accept=".json" style="margin:8px 0;">
+<button class="btn-abu" onclick="pulihkanBackup()">📥 Pulihkan dari File</button>
 </div>
 
 <script>
-const KUNCI = 'kasM3cbKasunyatan';
-let dataUtama = {masuk:[], keluar:[], donatur:[]};
-let grafikObjek = null;
+const KUNCI = 'kasM3cbLengkapKasunyatan';
+let daftarAnggota = [];
+let daftarKeluar = [];
 
-// ==== MUAT DATA AWAL ====
-function muatSemuaData(){
+// MUAT DATA AWAL
+function muatData() {
   const lama = localStorage.getItem(KUNCI);
-  if(lama) try{dataUtama = JSON.parse(lama);}catch(e){}
-  isiPilihanTanggal();
-  tampilSemuaHalaman();
+  if(lama) try{const d=JSON.parse(lama); daftarAnggota=d.anggota||[]; daftarKeluar=d.pengeluaran||[];}catch(e){}
+  tampilRekap(); tampilDaftar(); tampilKeluar();
 }
-function simpanPermanen(){localStorage.setItem(KUNCI, JSON.stringify(dataUtama));}
-function bukaMenu(id){
-  document.querySelectorAll('.konten').forEach(k=>k.classList.remove('aktif'));
-  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('aktif'));
-  document.getElementById(id).classList.add('aktif');
-  event.target.classList.add('aktif');
-  if(id==='dashboard') muatDashboard();
-  if(id==='laporan') muatLaporan();
-}
+function simpanPermanen(){localStorage.setItem(KUNCI, JSON.stringify({anggota:daftarAnggota, pengeluaran:daftarKeluar}));}
 
-// ==== FUNGSI UMUM ====
-function isiPilihanTanggal(){
-  const thnSekarang = new Date().getFullYear();
-  let opsiTahun = '<option value="">Semua Tahun</option>';
-  for(let t=thnSekarang-2; t<=thnSekarang+1; t++) opsiTahun += `<option value="${t}" ${t===thnSekarang?'selected':''}>${t}</option>`;
-  document.getElementById('lapTahun').innerHTML = opsiTahun;
-  const namaBulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-  let opsiBulan = '<option value="">Seluruh Tahun</option>';
-  namaBulan.forEach((n,i)=>opsiBulan += `<option value="${String(i+1).padStart(2,'0')}">${n}</option>`);
-  document.getElementById('lapBulan').innerHTML = opsiBulan;
-  document.getElementById('filterBulanMasuk').innerHTML = opsiBulan;
-  document.getElementById('filterBulanKeluar').innerHTML = opsiBulan;
-  document.getElementById('tglMasuk').valueAsDate = new Date();
-  document.getElementById('tglKeluar').valueAsDate = new Date();
-}
-function formatRupiah(n){return 'Rp ' + Number(n||0).toLocaleString('id-ID');}
-function ambilBulan(str){return str?str.split('-')[1]:'semua';}
-
-// ==== DASHBOARD & GRAFIK ====
-function muatDashboard(){
-  const thn = new Date().getFullYear();
-  let totalMasuk=0, totalKeluar=0, totalTarget=0, totalSudahDonat=0;
-  dataUtama.masuk.forEach(i=>{const tgl=i.tanggal.split('-')[0]; if(tgl==thn) totalMasuk += Number(i.nominal);});
-  dataUtama.keluar.forEach(i=>{const tgl=i.tanggal.split('-')[0]; if(tgl==thn) totalKeluar += Number(i.nominal);});
-  dataUtama.donatur.forEach(d=>{
-    totalTarget += Number(d.target||0);
-    const bayar = dataUtama.masuk.filter(m=>m.donaturId==d.id).reduce((s,a)=>s+Number(a.nominal),0);
-    totalSudahDonat += bayar;
-  });
+// RINGKASAN UTAMA
+function tampilRekap(){
+  const totalMasuk = daftarAnggota.reduce((s,a)=>s+Number(a.nominal),0);
+  const totalKeluar = daftarKeluar.reduce((s,a)=>s+Number(a.nominal),0);
   const saldo = totalMasuk - totalKeluar;
-  document.getElementById('isiDashboard').innerHTML = `
-  <div class="baris-rekap"><span>Total Pemasukan Tahun ${thn}</span><span class="hijau">${formatRupiah(totalMasuk)}</span></div>
-  <div class="baris-rekap"><span>Total Pengeluaran Tahun ${thn}</span><span class="merah">${formatRupiah(totalKeluar)}</span></div>
-  <div class="baris-rekap"><span>Saldo Kas Saat Ini</span><span class="${saldo>=0?'biru':'merah'}">${formatRupiah(saldo)}</span></div>
-  <hr style="margin:10px 0; border:1px solid #eee;">
-  <div class="baris-rekap"><span>Total Target Donatur Bulanan</span><span>${formatRupiah(totalTarget)}</span></div>
-  <div class="baris-rekap"><span>Total Sudah Disetor Donatur</span><span class="hijau">${formatRupiah(totalSudahDonat)}</span></div>
-  `;
-  muatPengingat(); muatStatistik(); muatGrafik();
-}
-function muatPengingat(){
-  const blnSekarang = String(new Date().getMonth()+1).padStart(2,'0');
-  const thnSekarang = new Date().getFullYear();
-  let daftar = [];
-  dataUtama.donatur.forEach(d=>{
-    if(!d.target || Number(d.target)<=0) return;
-    const sudah = dataUtama.masuk.filter(m=>m.donaturId==d.id && m.tanggal.startsWith(`${thnSekarang}-${blnSekarang}`)).reduce((s,a)=>s+Number(a.nominal),0);
-    if(sudah < Number(d.target)) daftar.push(`${d.nama} (Target: ${formatRupiah(d.target)} | Baru: ${formatRupiah(sudah)})`);
-  });
-  document.getElementById('isiPengingat').innerHTML = daftar.length?`<p>${daftar.join('<br>')}</p>`:'✅ Semua donatur sudah memenuhi target bulan ini!';
-}
-function muatStatistik(){
-  const thn = new Date().getFullYear();
-  let mBulan = Array(12).fill(0), kBulan = Array(12).fill(0);
-  dataUtama.masuk.forEach(i=>{const [t,b] = i.tanggal.split('-'); if(t==thn) mBulan[Number(b)-1] += Number(i.nominal);});
-  dataUtama.keluar.forEach(i=>{const [t,b] = i.tanggal.split('-'); if(t==thn) kBulan[Number(b)-1] += Number(i.nominal);});
-  let maxM = Math.max(...mBulan), maxK = Math.max(...kBulan);
-  document.getElementById('isiStatistik').innerHTML = `
-  <div class="baris-rekap"><span>Bulan Pemasukan Tertinggi</span><span>Bulan ${mBulan.indexOf(maxM)+1} — ${formatRupiah(maxM)}</span></div>
-  <div class="baris-rekap"><span>Bulan Pengeluaran Tertinggi</span><span>Bulan ${kBulan.indexOf(maxK)+1} — ${formatRupiah(maxK)}</span></div>
+  document.getElementById('isiRekapUtama').innerHTML = `
+  <div class="baris-rekap"><span>✅ Total Pemasukan / Donasi</span><span class="hijau">Rp ${totalMasuk.toLocaleString('id-ID')}</span></div>
+  <div class="baris-rekap"><span>❌ Total Pengeluaran</span><span class="merah">Rp ${totalKeluar.toLocaleString('id-ID')}</span></div>
+  <hr style="margin:8px 0; border:1px solid #eee;">
+  <div class="baris-rekap"><span>💰 SALDO SAAT INI</span><span class="${saldo>=0?'biru':'merah'}">Rp ${saldo.toLocaleString('id-ID')}</span></div>
+  <div class="baris-rekap"><span>Jumlah Anggota Tercatat</span><span>${daftarAnggota.length} orang</span></div>
   `;
 }
-function muatGrafik(){
-  const thn = new Date().getFullYear();
-  let mM = Array(12).fill(0), mK = Array(12).fill(0);
-  const labelBln = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
-  dataUtama.masuk.forEach(i=>{const [t,b] = i.tanggal.split('-'); if(t==thn) mM[Number(b)-1] += Number(i.nominal);});
-  dataUtama.keluar.forEach(i=>{const [t,b] = i.tanggal.split('-'); if(t==thn) mK[Number(b)-1] += Number(i.nominal);});
-  if(grafikObjek) grafikObjek.destroy();
-  grafikObjek = new Chart(document.getElementById('grafikUtama'),{
-    type:'bar',
-    data:{labels:labelBln,datasets:[
-      {label:'Pemasukan',data:mM,backgroundColor:'#2e7d32'},
-      {label:'Pengeluaran',data:mK,backgroundColor:'#c62828'}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:true,ticks:{callback:v=>'Rp '+v.toLocaleString('id-ID')}}}}
-  });
-}
 
-// ==== PEMASUKAN ====
-function simpanMasuk(){
-  const tgl = document.getElementById('tglMasuk').value;
-  const ket = document.getElementById('ketMasuk').value.trim();
-  const nom = Number(document.getElementById('nomMasuk').value)||0;
-  const idDon = document.getElementById('donaturMasuk').value||null;
-  if(!tgl || !ket || nom<=0) return alert('Lengkapi tanggal, keterangan & nominal!');
-  dataUtama.masuk.unshift({id:Date.now(), tanggal:tgl, keterangan:ket, nominal:nom, donaturId:idDon});
-  simpanPermanen(); alert('✅ Tersimpan!');
-  document.getElementById('ketMasuk').value=''; document.getElementById('nomMasuk').value='';
-  tampilMasuk(); muatDashboard();
+// ANGGOTA & PEMASUKAN
+function simpanData(){
+  const idEdit = document.getElementById('editId').value;
+  const nama = document.getElementById('nama').value.trim();
+  const hp = document.getElementById('hp').value.trim();
+  const nominal = Number(document.getElementById('nominal').value)||0;
+  const ket = document.getElementById('keterangan').value.trim();
+  if(!nama || nominal<=0) return alert('Lengkapi Nama & Nominal Donasi!');
+  const obj = {id:idEdit||Date.now(), nama, hp, nominal, keterangan:ket};
+  if(idEdit){const i=daftarAnggota.findIndex(x=>x.id==idEdit); if(i>=0)daftarAnggota[i]=obj;}
+  else daftarAnggota.push(obj);
+  simpanPermanen(); bersihkanForm(); tampilRekap(); tampilDaftar(); alert('✅ Tersimpan!');
 }
-function tampilMasuk(){
-  const kata = document.getElementById('cariMasuk').value.toLowerCase();
-  const bln = document.getElementById('filterBulanMasuk').value;
+function tampilDaftar(){
+  const kata = document.getElementById('cariNama').value.toLowerCase();
   let html='';
-  dataUtama.masuk.filter(i=>{
-    const cocokBln = !bln || ambilBulan(i.tanggal)===bln;
-    const cocokKata = i.keterangan.toLowerCase().includes(kata);
-    return cocokBln && cocokKata;
-  }).forEach(i=>{
-    const namaD = i.donaturId ? (dataUtama.donatur.find(d=>d.id==i.donaturId)?.nama||'') : '-';
-    html += `<tr><td>${i.tanggal}</td><td>${i.keterangan}</td><td>${formatRupiah(i.nominal)}</td><td>${namaD}</td><td><button style="padding:5px 8px; font-size:14px;" onclick="hapusMasuk(${i.id})">Hapus</button></td></tr>`;
-  });
-  document.querySelector('#tabelMasuk tbody').innerHTML = html;
-}
-function hapusMasuk(id){if(confirm('Yakin hapus?')){dataUtama.masuk=dataUtama.masuk.filter(i=>i.id!=id); simpanPermanen(); tampilMasuk(); muatDashboard();}}
-
-// ==== PENGELUARAN ====
-function simpanKeluar(){
-  const tgl = document.getElementById('tglKeluar').value;
-  const ket = document.getElementById('ketKeluar').value.trim();
-  const nom = Number(document.getElementById('nomKeluar').value)||0;
-  if(!tgl || !ket || nom<=0) return alert('Lengkapi data!');
-  dataUtama.keluar.unshift({id:Date.now(), tanggal:tgl, keterangan:ket, nominal:nom});
-  simpanPermanen(); alert('✅ Tersimpan!');
-  document.getElementById('ketKeluar').value=''; document.getElementById('nomKeluar').value='';
-  tampilKeluar(); muatDashboard();
-}
-function tampilKeluar(){
-  const kata = document.getElementById('cariKeluar').value.toLowerCase();
-  const bln = document.getElementById('filterBulanKeluar').value;
-  let html='';
-  dataUtama.keluar.filter(i=>{
-    const cocokBln = !bln || ambilBulan(i.tanggal)===bln;
-    const cocokKata = i.keterangan.toLowerCase().includes(kata);
-    return cocokBln && cocokKata;
-  }).forEach(i=>{
-    html += `<tr><td>${i.tanggal}</td><td>${i.keterangan}</td><td>${formatRupiah(i.nominal)}</td><td><button style="padding:5px 8px; font-size:14px;" onclick="hapusKeluar(${i.id})">Hapus</button></td></tr>`;
-  });
-  document.querySelector('#tabelKeluar tbody').innerHTML = html;
-}
-function hapusKeluar(id){if(confirm('Yakin hapus?')){dataUtama.keluar=dataUtama.keluar.filter(i=>i.id!=id); simpanPermanen(); tampilKeluar(); muatDashboard();}}
-
-// ==== DONATUR ====
-function tampilPilihanDonatur(){
-  let opsi='<option value="">-- Bukan dari Daftar Donatur --</option>';
-  dataUtama.donatur.forEach(d=>opsi += `<option value="${d.id}">${d.nama}</option>`);
-  document.getElementById('donaturMasuk').innerHTML = opsi;
-}
-function simpanDonatur(){
-  const id = document.getElementById('editDonaturId').value||Date.now();
-  const nama = document.getElementById('namaDonatur').value.trim();
-  const hp = document.getElementById('hpDonatur').value.trim();
-  const target = Number(document.getElementById('targetDonatur').value)||0;
-  const ket = document.getElementById('ketDonatur').value.trim();
-  if(!nama) return alert('Nama wajib diisi!');
-  const ada = dataUtama.donatur.findIndex(d=>d.id==id);
-  const obj = {id,nama,hp,target,keterangan:ket};
-  ada>=0 ? dataUtama.donatur[ada]=obj : dataUtama.donatur.push(obj);
-  simpanPermanen(); alert('✅ Data donatur tersimpan!');
-  document.getElementById('editDonaturId').value=''; document.getElementById('namaDonatur').value='';
-  document.getElementById('hpDonatur').value=''; document.getElementById('targetDonatur').value=0; document.getElementById('ketDonatur').value='';
-  tampilDonatur(); tampilPilihanDonatur(); muatDashboard();
-}
-function tampilDonatur(){
-  const kata = document.getElementById('cariDonatur').value.toLowerCase();
-  const filStat = document.getElementById('filterStatusDonatur').value;
-  const blnSekarang = String(new Date().getMonth()+1).padStart(2,'0');
-  const thnSekarang = new Date().getFullYear();
-  let html='';
-  dataUtama.donatur.filter(d=>d.nama.toLowerCase().includes(kata)).forEach(d=>{
-    const bayarBlnIni = dataUtama.masuk.filter(m=>m.donaturId==d.id && m.tanggal.startsWith(`${thnSekarang}-${blnSekarang}`)).reduce((s,a)=>s+Number(a.nominal),0);
-    const lunas = bayarBlnIni >= Number(d.target) || Number(d.target)<=0;
-    if(filStat==='lunas' && !lunas) return; if(filStat==='belum' && lunas) return;
-    const kelas = lunas ? 'baik' : 'kurang';
-    const linkWA = d.hp ? `https://wa.me/62${d.hp.replace(/^0+/,'')}?text=Assalamualaikum%20Kak%20${encodeURIComponent(d.nama)}%2C%20mohon%20konfirmasi%20donasi%20bulan%20ini%20ya.%20Terima%20kasih.` : '-';
-    html += `<tr class="${kelas}">
-      <td>${d.nama}</td><td>${d.hp||'-'}</td><td>${formatRupiah(d.target)}</td><td>${formatRupiah(bayarBlnIni)}</td>
-      <td>${lunas?'✅ LUNAS':'⚠️ BELUM'}</td>
-      <td>${linkWA!=='-'?`<a href="${linkWA}" target="_blank" style="color:#25d366; font-weight:bold;">Kirim WA</a>`:'Tidak ada No.HP'}</td>
-      <td><button style="padding:5px; font-size:13px; margin-bottom:3px;" onclick="editDonatur(${d.id})">Ubah</button><br><button style="padding:5px; font-size:13px;" onclick="hapusDonatur(${d.id})">Hapus</button></td>
+  daftarAnggota.filter(i=>i.nama.toLowerCase().includes(kata)).forEach(i=>{
+    const wa = i.hp ? `https://wa.me/62${i.hp.replace(/^0+/,'')}?text=Assalamualaikum%20${encodeURIComponent(i.nama)}` : '-';
+    html += `<tr>
+      <td>${i.nama}</td><td>${i.hp||'-'}</td><td>Rp ${i.nominal.toLocaleString('id-ID')}</td><td>${i.keterangan||'-'}</td>
+      <td>${wa!=='-'?`<a href="${wa}" target="_blank" style="color:#25d366; font-weight:bold;">WA</a>`:'-'}</td>
+      <td><button style="padding:5px; font-size:14px;" onclick="editData(${i.id})">Ubah</button> <button class="btn-merah" style="padding:5px; font-size:14px;" onclick="hapusAnggota(${i.id})">Hapus</button></td>
     </tr>`;
   });
-  document.querySelector('#tabelDonatur tbody').innerHTML = html;
+  document.getElementById('isiTabel').innerHTML=html;
 }
-function editDonatur(id){const d=dataUtama.donatur.find(x=>x.id==id); if(!d)return; document.getElementById('editDonaturId').value=d.id; document.getElementById('namaDonatur').value=d.nama; document.getElementById('hpDonatur').value=d.hp||''; document.getElementById('targetDonatur').value=d.target||0; document.getElementById('ketDonatur').value=d.keterangan||''; window.scrollTo({top:0,behavior:'smooth'});}
-function hapusDonatur(id){if(confirm('Yakin hapus? Data donasi tidak ikut terhapus.')){dataUtama.donatur=dataUtama.donatur.filter(x=>x.id!=id); simpanPermanen(); tampilDonatur(); tampilPilihanDonatur(); muatDashboard();}}
+function editData(id){const d=daftarAnggota.find(x=>x.id==id); if(!d)return; document.getElementById('editId').value=d.id; document.getElementById('nama').value=d.nama; document.getElementById('hp').value=d.hp||''; document.getElementById('nominal').value=d.nominal; document.getElementById('keterangan').value=d.keterangan||'';}
+function hapusAnggota(id){if(confirm('Yakin hapus?')){daftarAnggota=daftarAnggota.filter(x=>x.id!=id); simpanPermanen(); tampilRekap(); tampilDaftar();}}
 
-// ==== LAPORAN & EKSPOR ====
-function muatLaporan(){
-  const thn = document.getElementById('lapTahun').value;
-  const bln = document.getElementById('lapBulan').value;
-  const filter = i=>{const [t,b]=i.tanggal.split('-'); return (!thn||t==thn) && (!bln||b==bln);};
-  let m = dataUtama.masuk.filter(filter);
-  let k = dataUtama.keluar.filter(filter);
-  let tm = m.reduce((s,a)=>s+Number(a.nominal),0);
-  let tk = k.reduce((s,a)=>s+Number(a.nominal),0);
-  document.getElementById('isiLaporan').innerHTML = `
-  <div class="baris-rekap"><span>Total Pemasukan</span><span class="hijau">${formatRupiah(tm)}</span></div>
-  <div class="baris-rekap"><span>Total Pengeluaran</span><span class="merah">${formatRupiah(tk)}</span></div>
-  <div class="baris-rekap"><span>Saldo Periode Ini</span><span>${formatRupiah(tm-tk)}</span></div>
-  `;
+// PENGELOUARAN
+function simpanPengeluaran(){
+  const ket = document.getElementById('ketKeluar').value.trim();
+  const nom = Number(document.getElementById('nomKeluar').value)||0;
+  if(!ket || nom<=0) return alert('Lengkapi keterangan & nominal!');
+  daftarKeluar.unshift({id:Date.now(), keterangan:ket, nominal:nom});
+  simpanPermanen(); document.getElementById('ketKeluar').value=''; document.getElementById('nomKeluar').value='';
+  tampilRekap(); tampilKeluar(); alert('✅ Pengeluaran dicatat!');
 }
-function eksporExcel(){
-  let isi = 'TANGGAL;JENIS;KETERANGAN;NOMINAL;NAMA_DONATUR\n';
-  [...dataUtama.masuk.map(i=>({...i,jenis:'PEMASUKAN'})),...dataUtama.keluar.map(i=>({...i,jenis:'PENGELUARAN'}))]
-  .sort((a,b)=>b.tanggal.localeCompare(a.tanggal)).forEach(i=>{
-    const namaD = i.donaturId ? (dataUtama.donatur.find(d=>d.id==i.donaturId)?.nama||'') : '';
-    isi += `${i.tanggal};"${i.jenis}";"${i.keterangan}";${i.nominal};"${namaD}"\n`;
-  });
-  const blob = new Blob([isi],{type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download='Laporan_Kas_M3CB_Kasunyatan.csv'; a.click(); URL.revokeObjectURL(url);
+function tampilKeluar(){
+  let html='';
+  daftarKeluar.forEach(i=>html += `<div class="baris-rekap"><span>${i.keterangan}</span><span class="merah">Rp ${i.nominal.toLocaleString('id-ID')}</span> <button style="padding:4px; font-size:13px;" onclick="hapusKeluar(${i.id})">X</button></div>`);
+  document.getElementById('daftarPengeluaran').innerHTML = html || '<p style="color:#888;">Belum ada catatan pengeluaran</p>';
 }
+function hapusKeluar(id){if(confirm('Yakin hapus?')){daftarKeluar=daftarKeluar.filter(x=>x.id!=id); simpanPermanen(); tampilRekap(); tampilKeluar();}}
 
-// ==== BACKUP JSON ====
-function unduhBackup(){
-  const teks = JSON.stringify(dataUtama,null,2);
-  const blob = new Blob([teks],{type:'application/json'});
-  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`Backup_Kas_M3CB_${new Date().toISOString().slice(0,10)}.json`; a.click();
-}
-function pulihkanBackup(){
-  const f = document.getElementById('fileBackup').files[0]; if(!f)return alert('Pilih file dulu!');
-  const pembaca = new FileReader();
-  pembaca.onload = e=>{try{const baru = JSON.parse(e.target.result); if(!baru.masuk||!baru.keluar||!baru.donatur)throw''; if(confirm('GANTI SEMUA DATA SAAT INI? Pastikan file benar!')){dataUtama=baru; simpanPermanen(); alert('✅ Berhasil dipulihkan!'); tampilSemuaHalaman();}}catch{alert('❌ File rusak atau bukan file backup ini!')}};
-  pembaca.readAsText(f);
-}
-function tampilSemuaHalaman(){tampilPilihanDonatur(); tampilMasuk(); tampilKeluar(); tampilDonatur(); muatDashboard();}
+function bersihkanForm(){document.getElementById('editId').value=''; document.getElementById('nama').value=''; document.getElementById('hp').value=''; document.getElementById('nominal').value=''; document.getElementById('keterangan').value='';}
 
-// ==== MULAI ====
-muatSemuaData();
+// BACKUP
+function unduhBackup(){const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify({anggota:daftarAnggota,pengeluaran:daftarKeluar},null,2)],{type:'application/json'})); a.download=`Backup_Kas_M3CB_${new Date().toISOString().slice(0,10)}.json`; a.click();}
+function pulihkanBackup(){const f=document.getElementById('fileBackup').files[0]; if(!f)return alert('Pilih file dulu!'); const baca=new FileReader(); baca.onload=e=>{try{const d=JSON.parse(e.target.result); if(!d.anggota||!d.pengeluaran)throw''; if(confirm('GANTI SEMUA DATA?')){daftarAnggota=d.anggota; daftarKeluar=d.pengeluaran; simpanPermanen(); tampilRekap(); tampilDaftar(); tampilKeluar(); alert('✅ Selesai!')}}catch{alert('❌ File salah/rusak!')}}; baca.readAsText(f);}
+
+muatData();
 </script>
 </body>
 </html>
