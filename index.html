@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Kas Organisasi</title>
-    <!-- Tailwind CSS modern versi terbaru -->
+    <title>Dashboard Kas M3CB Kasunyatan</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,8 +21,8 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold tracking-tight text-slate-900">Barok Barokah</h1>
-                    <p class="text-xs text-slate-400 font-medium">Sistem Kas Finansial</p>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900">M3CB</h1>
+                    <p class="text-xs text-slate-400 font-medium">Kas Kelurahan Kasunyatan</p>
                 </div>
             </div>
             <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">
@@ -97,7 +96,7 @@
                     <div class="flex gap-2">
                         <button onclick="bagikanKeWhatsApp()" class="text-xs text-emerald-600 hover:text-emerald-800 font-semibold bg-emerald-50 hover:bg-emerald-100 px-3 py-2 rounded-xl transition cursor-pointer flex items-center gap-1.5">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.149-.198.297-.768.967-.942 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.453.13-.6.133-.133.297-.347.446-.521.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.521-.074-.149-.67-1.616-.917-2.214-.243-.583-.489-.556-.67-.556-.172-.026-.37-.026-.568-.026-.198 0-.518.074-.792.371-.274.297-1.045 1.02-1.045 2.489 0 1.468 1.069 2.875 1.218 3.074.148.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.273-.198-.57-.347m-5.421 7.403h-.004a6.55 6.55 0 0 1-3.344-.919l-.24-.144-2.494.654.665-2.433-.146-.251a6.56 6.56 0 0 1-.998-3.48c.002-3.623 2.955-6.574 6.579-6.574 1.756.07 3.407.683 4.647 1.916a6.564 6.564 0 0 1 1.921 4.638c-.002 3.624-2.956 6.575-6.582 6.575m3.793-4.854c-.661-.33-1.916-.889-2.215-.99-.299-.099-.518-.148-.737.148-.22.297-.852.99-1.046 1.188-.194.198-.372.222-.669.073-.298-.15-1.253-.463-2.39-1.474-.882-.788-1.478-1.76-1.652-2.058-.174-.297-.019-.453.129-.601.134-.134.298-.348.447-.522.148-.174.198-.298.297-.497.099-.198.049-.371-.024-.521-.074-.149-.669-1.616-.916-2.214-.242-.583-.489-.556-.67-.556-.172-.025-.37-.025-.568-.025-.197 0-.518.074-.792.371-.274.297-1.044 1.02-1.044 2.489 0 1.468 1.068 2.875 1.217 3.074.148.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.713.226 1.361.194 1.872.118.572-.085 1.759-.719 2.006-1.413.249-.694.249-1.289.174-1.413-.075-.124-.273-.198-.57-.347m-3.793-4.854z"></path></svg>
-                            Bagikan
+                            Bagikan Ke WA
                         </button>
                         <button onclick="hapusSemua()" class="text-xs text-rose-600 hover:text-rose-800 font-semibold bg-rose-50 hover:bg-rose-100 px-3 py-2 rounded-xl transition cursor-pointer">
                             Hapus Semua
@@ -128,7 +127,7 @@
 
     <script>
         document.getElementById('tanggal').valueAsDate = new Date();
-        let dataTransaksi = JSON.parse(localStorage.getItem('kas_organisasi')) || [];
+        let dataTransaksi = JSON.parse(localStorage.getItem('kas_m3cb_kasunyatan')) || [];
         const form = document.getElementById('form-transaksi');
         const tabelBody = document.getElementById('tabel-body');
         const dataKosong = document.getElementById('data-kosong');
@@ -207,7 +206,7 @@
             const tanggal = document.getElementById('tanggal').value;
 
             dataTransaksi.push({ jenis, nama, nominal, keterangan, tanggal });
-            localStorage.setItem('kas_organisasi', JSON.stringify(dataTransaksi));
+            localStorage.setItem('kas_m3cb_kasunyatan', JSON.stringify(dataTransaksi));
 
             document.getElementById('nama').value = '';
             document.getElementById('nominal').value = '';
@@ -216,7 +215,7 @@
         });
 
         function bagikanKeWhatsApp() {
-            let pesan = "📊 *Laporan Kas Organisasi*\n\n";
+            let pesan = "📊 *Laporan Kas M3CB Kelurahan Kasunyatan*\n\n";
             let totalMasuk = 0;
             let totalKeluar = 0;
 
@@ -225,14 +224,15 @@
                 else totalKeluar += item.nominal;
             });
 
-            pesan += `💰 Total Pemasukan: ${formatRupiah(totalMasuk)}\n`;
-            pesan += `💸 Total Pengeluaran: ${formatRupiah(totalKeluar)}\n`;
-            pesan += `💵 Saldo Akhir: ${formatRupiah(totalMasuk - totalKeluar)}\n\n`;
-            pesan += "Detail Transaksi:\n";
+            pesan += `💰 *Total Pemasukan:* ${formatRupiah(totalMasuk)}\n`;
+            pesan += `💸 *Total Pengeluaran:* ${formatRupiah(totalKeluar)}\n`;
+            pesan += `💵 *Saldo Akhir:* ${formatRupiah(totalMasuk - totalKeluar)}\n\n`;
+            pesan += "*Detail Transaksi Terbaru:*\n";
 
-            dataTransaksi.sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal)).forEach(item => {
+            dataTransaksi.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal)).slice(0, 15).forEach(item => {
                 const tanda = item.jenis.startsWith('masuk') ? '+' : '-';
-                pesan += `- [${item.tanggal}] ${item.jenis.startsWith('masuk') ? 'Masuk' : 'Keluar'} ${formatRupiah(item.nominal)} (${item.keterangan})\n`;
+                const detailNama = item.nama ? ` (Dari: ${item.nama})` : '';
+                pesan += `- [${item.tanggal}] *${tanda}${formatRupiah(item.nominal)}* | ${item.keterangan}${detailNama}\n`;
             });
 
             const linkWhatsApp = `https://wa.me/?text=${encodeURIComponent(pesan)}`;
@@ -242,15 +242,15 @@
         function hapusTransaksi(index) {
             if (confirm("Hapus transaksi ini?")) {
                 dataTransaksi.splice(index, 1);
-                localStorage.setItem('kas_organisasi', JSON.stringify(dataTransaksi));
+                localStorage.setItem('kas_m3cb_kasunyatan', JSON.stringify(dataTransaksi));
                 updateTampilan();
             }
         }
 
         function hapusSemua() {
-            if (confirm("Tindakan ini akan menghapus semua database kas. Lanjutkan?")) {
+            if (confirm("Tindakan ini akan menghapus semua database kas M3CB. Lanjutkan?")) {
                 dataTransaksi = [];
-                localStorage.removeItem('kas_organisasi');
+                localStorage.removeItem('kas_m3cb_kasunyatan');
                 updateTampilan();
             }
         }
