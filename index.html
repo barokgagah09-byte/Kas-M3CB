@@ -1,223 +1,359 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Kas M3CB - Kelurahan KASUNYATAN</title>
-<style>
-*{box-sizing:border-box; font-family:Arial,sans-serif; margin:0; padding:0;}
-html{font-size:17px;}
-body{max-width:100%; padding:12px 8px; background:#f0f4f8;}
-
-.judul{text-align:center; color:#1a365d; margin-bottom:12px; padding:12px; background:#fff; border-radius:12px; box-shadow:0 2px 4px rgba(0,0,0,0.05);}
-.judul h1{font-size:20px; margin-bottom:4px;}
-.judul p{font-size:14px; color:#666;}
-.catatan{background:#fff9e6; padding:10px; border-radius:8px; margin-bottom:12px; border-left:4px solid #ffc107; font-size:15px;}
-
-.grid-dua{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;}
-.box{background:#fff; padding:14px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.06);}
-.box h3{color:#1a365d; margin-bottom:10px; font-size:17px; padding-bottom:6px; border-bottom:1px solid #eee;}
-.baris-rekap{display:flex; justify-content:space-between; padding:7px 0; font-size:15px;}
-.baris-rekap.tebal{font-weight:bold; font-size:16px;}
-.hijau{color:#2e7d32;}
-.merah{color:#c62828;}
-.biru{color:#1565c0;}
-
-.row{margin-bottom:10px;}
-label{display:block; margin-bottom:4px; font-weight:bold; color:#444; font-size:15px;}
-input,button{width:100%; padding:9px 8px; font-size:15px; border:1px solid #ddd; border-radius:8px;}
-input:focus{outline:none; border-color:#2196f3; background:#f8fbff;}
-button{background:#2196f3; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-top:2px;}
-button:hover{background:#1976d2;}
-.btn-wa{background:#25d366; margin-top:8px;}
-.btn-wa:hover{background:#1da851;}
-.btn-merah{background:#ef5350; padding:4px 6px; font-size:13px; width:auto;}
-.btn-merah:hover{background:#e53935;}
-.btn-abu{background:#78909c; margin-top:5px;}
-
-.cari{margin-bottom:8px;}
-table{width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; font-size:14px;}
-th,td{border:1px solid #e8e8e8; padding:8px 5px; text-align:center;}
-th{background:#f5f8fc; font-weight:bold; color:#1a365d;}
-.sembunyi{display:none;}
-.salin-berhasil{color:#2e7d32; font-weight:bold; text-align:center; margin:5px 0; font-size:14px;}
-.nomor-urut{width:35px;}
-.aksi-kecil{width:55px;}
-.input-kecil{padding:5px; font-size:14px;}
-
-.daftar-kecil{max-height:140px; overflow-y:auto; margin-top:6px;}
-.item-keluar{display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #f0f0f0; font-size:14px;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kas M3CB - Kelurahan KASUNYATAN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .tab-aktif { background: #4f46e5; color: white; }
+        .tab-nonaktif { background: #f1f5f9; color: #475569; }
+    </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-12">
+    <header class="bg-white border-b border-slate-100 sticky top-0 z-10 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-blue-600 text-white rounded-2xl shadow-md shadow-blue-600/20"><i data-lucide="landmark" class="w-6 h-6"></i></div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">KAS M3CB</h1>
+                    <p class="text-xs text-slate-500">Kelurahan KASUNYATAN</p>
+                </div>
+            </div>
+        </div>
+    </header>
 
-<div class="judul">
-<h1>🏛️ KAS M3CB - Kelurahan KASUNYATAN</h1>
-<p>Pencatatan Keuangan Resmi</p>
-</div>
+    <main class="max-w-6xl mx-auto px-4 mt-6">
+        <!-- Catatan Saldo Awal -->
+        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-6">
+            <p class="text-sm text-amber-800 flex items-center gap-2"><i data-lucide="info" class="w-4 h-4"></i> Saldo Awal Kas diisi Bendahara sesuai catatan asli (perkiraan ±Rp 300.000)</p>
+        </div>
 
-<div class="catatan">
-📢 Saldo Awal diisi Bendahara saja (perkiraan ±Rp 300.000)
-</div>
+        <!-- Tombol Tampilan & Bagikan -->
+        <div class="flex flex-col sm:flex-row gap-3 mb-6 justify-between">
+            <div class="flex gap-2">
+                <button onclick="ubahTampilan('daftar')" id="tab-daftar" class="px-4 py-2 rounded-xl text-sm font-semibold tab-aktif">Daftar Anggota</button>
+                <button onclick="ubahTampilan('pengeluaran')" id="tab-pengeluaran" class="px-4 py-2 rounded-xl text-sm font-semibold tab-nonaktif">Pengeluaran</button>
+                <button onclick="ubahTampilan('ringkasan')" id="tab-ringkasan" class="px-4 py-2 rounded-xl text-sm font-semibold tab-nonaktif">Ringkasan</button>
+            </div>
+            <div class="flex gap-2 flex-wrap">
+                <button onclick="salinLaporanGrup()" class="px-3 py-2 bg-emerald-50 text-emerald-600 text-xs font-semibold rounded-xl hover:bg-emerald-100 transition-colors flex items-center gap-1">
+                    <i data-lucide="copy" class="w-4 h-4"></i> Salin Laporan Grup
+                </button>
+                <button onclick="unduhBackup()" class="px-3 py-2 bg-blue-50 text-blue-600 text-xs font-semibold rounded-xl hover:bg-blue-100 transition-colors flex items-center gap-1">
+                    <i data-lucide="download" class="w-4 h-4"></i> Unduh Cadangan
+                </button>
+            </div>
+        </div>
 
-<!-- BARIS SEBELAH-MENYEBELAH: SALDO AWAL & TAMBAH ANGGOTA -->
-<div class="grid-dua">
-<div class="box">
-<h3>⚙️ Saldo Awal</h3>
-<div class="row">
-<input type="number" id="saldoAwal" min="0" placeholder="Isi angka..." class="input-kecil">
-</div>
-<button onclick="simpanSaldoAwal()" style="padding:7px;">✅ Simpan</button>
-</div>
+        <!-- KARTU SALDO & INFO -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Saldo Awal</p>
+                    <h3 id="nilaiSaldoAwal" class="text-xl font-bold text-blue-600">Rp 0</h3>
+                </div>
+                <div class="p-4 bg-blue-50 text-blue-600 rounded-2xl"><i data-lucide="credit-card" class="w-8 h-8"></i></div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Total Donasi</p>
+                    <h3 id="nilaiTotalDonasi" class="text-xl font-bold text-emerald-600">Rp 0</h3>
+                </div>
+                <div class="p-4 bg-emerald-50 text-emerald-600 rounded-2xl"><i data-lucide="heart-handshake" class="w-8 h-8"></i></div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Saldo Akhir Kas</p>
+                    <h3 id="nilaiSaldoAkhir" class="text-xl font-bold text-slate-800">Rp 0</h3>
+                </div>
+                <div class="p-4 bg-slate-50 text-slate-600 rounded-2xl"><i data-lucide="wallet" class="w-8 h-8"></i></div>
+            </div>
+        </div>
 
-<div class="box">
-<h3>👥 Tambah Anggota</h3>
-<div class="row">
-<input type="text" id="namaAnggota" placeholder="Nama anggota..." class="input-kecil">
-</div>
-<button onclick="simpanAnggota()" style="padding:7px;">💾 Simpan</button>
-</div>
-</div>
+        <!-- BAGIAN: DAFTAR ANGGOTA -->
+        <div id="area-daftar" class="area-tampilan">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+                <div class="lg:col-span-4 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm h-fit">
+                    <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><i data-lucide="user-plus" class="w-5 h-5 text-blue-500"></i> Tambah Anggota Baru</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-xs font-semibold text-slate-500 mb-1 block">Nama Lengkap Anggota</label>
+                            <input type="text" id="inputNamaAnggota" placeholder="Contoh: H Barok" class="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-blue-500">
+                        </div>
+                        <button onclick="simpanAnggotaBaru()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-semibold text-sm transition-colors">Simpan Anggota</button>
+                    </div>
 
-<!-- BARIS SEBELAH-MENYEBELAH: DAFTAR ANGGOTA & PENGELOUARAN -->
-<div class="grid-dua">
-<div class="box">
-<h3>📑 Anggota & Donasi</h3>
-<div class="cari">
-<input type="text" id="cariAnggota" placeholder="🔍 Cari nama..." oninput="tampilDaftarAnggota()" class="input-kecil">
-</div>
-<div style="max-height:220px; overflow-y:auto;">
-<table id="tabelAnggota">
-<thead>
-<tr>
-<th class="nomor-urut">No</th>
-<th>Nama</th>
-<th>Donasi</th>
-<th class="aksi-kecil">Hapus</th>
-</tr>
-</thead>
-<tbody id="isiTabelAnggota"></tbody>
-</table>
-</div>
-</div>
+                    <hr class="my-4 border-slate-100">
 
-<div class="box">
-<h3>📤 Catat Pengeluaran</h3>
-<div class="row">
-<input type="text" id="ketKeluar" placeholder="Keperluan..." class="input-kecil">
-</div>
-<div class="row">
-<input type="number" id="nomKeluar" min="0" placeholder="Jumlah Rp..." class="input-kecil">
-</div>
-<button onclick="simpanPengeluaran()" style="padding:7px;">💾 Simpan</button>
-<div class="daftar-kecil">
-<div id="daftarPengeluaran"></div>
-</div>
-</div>
-</div>
+                    <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><i data-lucide="edit-3" class="w-5 h-5 text-emerald-500"></i> Isi Saldo Awal Kas</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-xs font-semibold text-slate-500 mb-1 block">Masukkan Nominal Saldo Awal (Rp)</label>
+                            <input type="number" id="inputSaldoAwal" min="0" placeholder="Contoh: 300000" class="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-blue-500">
+                        </div>
+                        <button onclick="simpanSaldoAwal()" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-2.5 rounded-xl font-semibold text-sm transition-colors">Simpan Saldo Awal</button>
+                    </div>
+                </div>
 
-<!-- RINGKASAN & BAGIKAN -->
-<div class="box">
-<h3>📊 Ringkasan & Bagikan</h3>
-<div id="isiRekap"></div>
-<button class="btn-wa" onclick="salinDanBagikan()">📋 SALIN KE GRUP WA</button>
-<p id="pesanSalin" class="sembunyi salin-berhasil">✅ Sudah disalin! Tempel langsung di grup</p>
-</div>
+                <div class="lg:col-span-8 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold">Daftar Anggota & Donasi</h2>
+                        <input type="text" id="cariNama" placeholder="🔍 Cari nama..." oninput="tampilDaftarAnggota()" class="px-3 py-1.5 rounded-xl border border-slate-200 text-sm w-48 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-slate-50 text-left">
+                                    <th class="p-3 text-xs font-semibold text-slate-500 w-12">No</th>
+                                    <th class="p-3 text-xs font-semibold text-slate-500">Nama Anggota</th>
+                                    <th class="p-3 text-xs font-semibold text-slate-500 w-40 text-center">Jumlah Donasi (Rp)</th>
+                                    <th class="p-3 text-xs font-semibold text-slate-500 w-20 text-center">Hapus</th>
+                                </tr>
+                            </thead>
+                            <tbody id="isiTabelAnggota" class="divide-y divide-slate-100 text-sm"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!-- BACKUP -->
-<div class="box">
-<h3>💾 Cadangan Data</h3>
-<div class="grid-dua">
-<button onclick="unduhBackup()" style="padding:7px;">📄 Unduh File</button>
-<button class="btn-abu" onclick="document.getElementById('fileBackup').click()" style="padding:7px;">📥 Pulihkan</button>
-</div>
-<input type="file" id="fileBackup" accept=".json" style="display:none;" onchange="pulihkanBackup()">
-</div>
+        <!-- BAGIAN: PENGELOUARAN -->
+        <div id="area-pengeluaran" class="area-tampilan hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+                <div class="lg:col-span-4 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm h-fit">
+                    <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><i data-lucide="file-minus" class="w-5 h-5 text-rose-500"></i> Catat Pengeluaran</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-xs font-semibold text-slate-500 mb-1 block">Keterangan Keperluan</label>
+                            <input type="text" id="inputKetPengeluaran" placeholder="Contoh: Beli ATK / Konsumsi Rapat" class="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-rose-500">
+                        </div>
+                        <div>
+                            <label class="text-xs font-semibold text-slate-500 mb-1 block">Nominal Uang Keluar (Rp)</label>
+                            <input type="number" id="inputNomPengeluaran" min="0" placeholder="0" class="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-rose-500">
+                        </div>
+                        <button onclick="simpanPengeluaranBaru()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-2.5 rounded-xl font-semibold text-sm transition-colors">Simpan Pengeluaran</button>
+                    </div>
+                </div>
+                <div class="lg:col-span-8 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                    <h2 class="text-lg font-bold mb-4">Daftar Semua Pengeluaran</h2>
+                    <div id="isiDaftarPengeluaran"></div>
+                </div>
+            </div>
+        </div>
 
-<script>
-const KUNCI_DATA = 'KasM3CBTampilanRapi';
-let dataUtama = { saldoAwal:0, anggota:[], pengeluaran:[] };
+        <!-- BAGIAN: RINGKASAN -->
+        <div id="area-ringkasan" class="area-tampilan hidden">
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-500"></i> Ringkasan Lengkap</h2>
+                <div id="isiLaporanRingkas"></div>
+            </div>
+        </div>
 
-function muatData() {
-  const lama = localStorage.getItem(KUNCI_DATA);
-  if(lama) try{dataUtama = JSON.parse(lama);}catch(e){}
-  document.getElementById('saldoAwal').value = dataUtama.saldoAwal||'';
-  tampilSemua();
-}
-function simpanPermanen(){localStorage.setItem(KUNCI_DATA, JSON.stringify(dataUtama));}
-function tampilSemua(){tampilRekap(); tampilDaftarAnggota(); tampilDaftarPengeluaran();}
-function formatRp(nilai){return 'Rp ' + Number(nilai||0).toLocaleString('id-ID');}
+        <!-- PULIHKAN DATA -->
+        <div class="mt-6 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+            <h3 class="font-bold mb-3">📥 Pulihkan Data dari File Cadangan</h3>
+            <input type="file" id="filePulihkan" accept=".json" class="text-sm mb-3">
+            <button onclick="pulihkanDariFile()" class="px-4 py-2 bg-slate-100 rounded-xl text-sm font-semibold hover:bg-slate-200 transition-colors">Muat Data Cadangan</button>
+        </div>
+    </main>
 
-function simpanSaldoAwal(){
-  const n = Number(document.getElementById('saldoAwal').value)||0;
-  if(n<=0) return alert('Masukkan angka saldo awal!');
-  if(dataUtama.saldoAwal>0 && !confirm('Ganti saldo awal yang sudah ada?')) return;
-  dataUtama.saldoAwal = n; simpanPermanen(); tampilRekap(); alert('✅ Tersimpan!');
-}
+    <script>
+        const KUNCI_SIMPAN = 'KasM3CBKasunyatanResmi';
+        let dataUtama = { saldoAwal:0, anggota:[], pengeluaran:[] };
+        let tampilanSaatIni = 'daftar';
 
-function simpanAnggota(){
-  const nama = document.getElementById('namaAnggota').value.trim();
-  if(!nama) return alert('Isi nama dulu!');
-  dataUtama.anggota.push({id:Date.now(), nama:nama, nominal:0});
-  simpanPermanen(); document.getElementById('namaAnggota').value=''; tampilSemua();
-}
+        function formatRupiah(nilai) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(nilai||0); }
 
-function tampilDaftarAnggota(){
-  const kata = document.getElementById('cariAnggota').value.toLowerCase();
-  let html=''; let no=1;
-  dataUtama.anggota.filter(a=>a.nama.toLowerCase().includes(kata)).forEach(a=>{
-    html += `<tr>
-      <td>${no}</td>
-      <td style="text-align:left;">${a.nama}</td>
-      <td><input type="number" min="0" value="${a.nominal||0}" onchange="ubahDonasi(${a.id},this.value)" class="input-kecil" style="width:70px;"></td>
-      <td><button class="btn-merah" onclick="hapusAnggota(${a.id})">×</button></td>
-    </tr>`; no++;
-  });
-  document.getElementById('isiTabelAnggota').innerHTML = html || '<tr><td colspan="4" style="color:#888;">Belum ada</td></tr>';
-}
-function ubahDonasi(id, nilai){const a=dataUtama.anggota.find(x=>x.id==id); if(!a)return; a.nominal=Number(nilai)||0; simpanPermanen(); tampilRekap();}
-function hapusAnggota(id){if(confirm('Yakin hapus?')){dataUtama.anggota=dataUtama.anggota.filter(x=>x.id!=id); simpanPermanen(); tampilSemua();}}
+        window.onload = function() {
+            const dataLama = localStorage.getItem(KUNCI_SIMPAN);
+            if(dataLama) try{dataUtama = JSON.parse(dataLama);}catch(e){}
+            lucide.createIcons();
+            document.getElementById('inputSaldoAwal').value = dataUtama.saldoAwal||'';
+            tampilSemuaData();
+        }
 
-function simpanPengeluaran(){
-  const ket = document.getElementById('ketKeluar').value.trim();
-  const nom = Number(document.getElementById('nomKeluar').value)||0;
-  if(!ket || nom<=0) return alert('Lengkapi data pengeluaran!');
-  dataUtama.pengeluaran.unshift({id:Date.now(), keterangan:ket, nominal:nom});
-  simpanPermanen(); document.getElementById('ketKeluar').value=''; document.getElementById('nomKeluar').value=''; tampilSemua();
-}
-function tampilDaftarPengeluaran(){
-  let html='';
-  if(dataUtama.pengeluaran.length==0){html='<p style="color:#888; font-size:14px;">Belum ada</p>';}
-  else{dataUtama.pengeluaran.forEach(p=>html += `<div class="item-keluar"><span>${p.keterangan}</span><span class="merah">${formatRp(p.nominal)}</span><button class="btn-merah" onclick="hapusKeluar(${p.id})">×</button></div>`);}
-  document.getElementById('daftarPengeluaran').innerHTML = html;
-}
-function hapusKeluar(id){if(confirm('Salah catat? Hapus ya?')){dataUtama.pengeluaran=dataUtama.pengeluaran.filter(x=>x.id!=id); simpanPermanen(); tampilSemua();}}
+        function simpanPermanen() { localStorage.setItem(KUNCI_SIMPAN, JSON.stringify(dataUtama)); }
+        function tampilSemuaData() { hitungRekapUtama(); tampilDaftarAnggota(); tampilDaftarPengeluaran(); tampilLaporanRingkas(); }
 
-function buatTeksLaporan(){
-  const totalDonasi = dataUtama.anggota.reduce((s,a)=>s+Number(a.nominal),0);
-  const totalKeluar = dataUtama.pengeluaran.reduce((s,a)=>s+Number(a.nominal),0);
-  const saldo = (dataUtama.saldoAwal||0) + totalDonasi - totalKeluar;
-  let daftar=''; let u=1; dataUtama.anggota.forEach(a=>daftar+=`${u}. ${a.nama} = ${formatRp(a.nominal)}\n`);
-  return `📊 LAPORAN KAS M3CB - KASUNYATAN\n🗓 ${new Date().toLocaleDateString('id-ID')}\n━━━━━━━━━━━\n⚙️ SALDO AWAL: ${formatRp(dataUtama.saldoAwal)}\n👥 DAFTAR DONASI:\n${daftar}━━━━━━━━━━━\n✅ Total Donasi: ${formatRp(totalDonasi)}\n❌ Total Keluar: ${formatRp(totalKeluar)}\n💰 SALDO SEKARANG: ${formatRp(saldo)}`;
-}
-function salinDanBagikan(){navigator.clipboard.writeText(buatTeksLaporan()).then(()=>{const p=document.getElementById('pesanSalin');p.classList.remove('sembunyi');setTimeout(()=>p.classList.add('sembunyi'),3500);});}
-function tampilRekap(){
-  const totalDonasi = dataUtama.anggota.reduce((s,a)=>s+Number(a.nominal),0);
-  const totalKeluar = dataUtama.pengeluaran.reduce((s,a)=>s+Number(a.nominal),0);
-  const saldo = (dataUtama.saldoAwal||0) + totalDonasi - totalKeluar;
-  document.getElementById('isiRekap').innerHTML = `
-  <div class="baris-rekap"><span>Saldo Awal</span><span class="biru">${formatRp(dataUtama.saldoAwal)}</span></div>
-  <div class="baris-rekap"><span>Total Donasi</span><span class="hijau">${formatRp(totalDonasi)}</span></div>
-  <div class="baris-rekap"><span>Total Keluar</span><span class="merah">${formatRp(totalKeluar)}</span></div>
-  <div class="baris-rekap tebal" style="border-top:1px solid #eee; padding-top:8px;">
-  <span>SALDO AKHIR</span><span class="${saldo>=0?'biru':'merah'}">${formatRp(saldo)}</span></div>
-  `;
-}
+        function ubahTampilan(tipe) {
+            tampilanSaatIni = tipe;
+            ['daftar','pengeluaran','ringkasan'].forEach(t=>{
+                const btn = document.getElementById(`tab-${t}`);
+                const area = document.getElementById(`area-${t}`);
+                if(t===tipe){ btn.className = "px-4 py-2 rounded-xl text-sm font-semibold tab-aktif"; area.classList.remove('hidden'); }
+                else{ btn.className = "px-4 py-2 rounded-xl text-sm font-semibold tab-nonaktif"; area.classList.add('hidden'); }
+            });
+        }
 
-function unduhBackup(){const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(dataUtama,null,2)],{type:'application/json'})); a.download=`Backup_Kas_M3CB_${new Date().toISOString().slice(0,10)}.json`; a.click();}
-function pulihkanBackup(){const f=document.getElementById('fileBackup').files[0]; if(!f)return; const baca=new FileReader(); baca.onload=e=>{try{const d=JSON.parse(e.target.result); if(!d.anggota)throw''; if(confirm('Ganti semua data sekarang?')){dataUtama=d; simpanPermanen(); tampilSemua(); alert('✅ Pulih berhasil!')}}catch{alert('❌ File tidak valid!')}}; baca.readAsText(f);}
+        function hitungRekapUtama() {
+            const totalDonasi = dataUtama.anggota.reduce((s,a)=>s+Number(a.nominal||0),0);
+            const totalKeluar = dataUtama.pengeluaran.reduce((s,a)=>s+Number(a.nominal||0),0);
+            const saldoAkhir = (dataUtama.saldoAwal||0) + totalDonasi - totalKeluar;
 
-muatData();
-</script>
+            document.getElementById('nilaiSaldoAwal').textContent = formatRupiah(dataUtama.saldoAwal);
+            document.getElementById('nilaiTotalDonasi').textContent = formatRupiah(totalDonasi);
+            const elSaldo = document.getElementById('nilaiSaldoAkhir');
+            elSaldo.textContent = formatRupiah(saldoAkhir);
+            elSaldo.className = saldoAkhir<0 ? "text-xl font-bold text-rose-600" : "text-xl font-bold text-slate-800";
+        }
+
+        function simpanSaldoAwal() {
+            const n = Number(document.getElementById('inputSaldoAwal').value)||0;
+            if(n<=0) return alert('Masukkan angka saldo awal yang benar!');
+            if(dataUtama.saldoAwal>0 && !confirm('Sudah ada saldo awal tercatat. Yakin menggantinya?')) return;
+            dataUtama.saldoAwal = n;
+            simpanPermanen(); hitungRekapUtama(); alert('✅ Saldo awal tersimpan!');
+        }
+
+        function simpanAnggotaBaru() {
+            const nama = document.getElementById('inputNamaAnggota').value.trim();
+            if(!nama) return alert('Isi nama anggota terlebih dahulu!');
+            dataUtama.anggota.push({id:Date.now(), nama:nama, nominal:0});
+            simpanPermanen(); document.getElementById('inputNamaAnggota').value=''; tampilSemuaData(); alert('✅ Anggota ditambahkan! Silakan isi donasi di tabel.');
+        }
+
+        function tampilDaftarAnggota() {
+            const kata = document.getElementById('cariNama').value.toLowerCase();
+            let html=''; let no=1;
+            dataUtama.anggota.filter(a=>a.nama.toLowerCase().includes(kata)).forEach(a=>{
+                html += `<tr class="hover:bg-slate-50">
+                    <td class="p-3 text-center">${no}</td>
+                    <td class="p-3 font-medium">${a.nama}</td>
+                    <td class="p-3 text-center"><input type="number" min="0" value="${a.nominal||0}" onchange="ubahNominalDonasi(${a.id},this.value)" class="w-28 px-2 py-1 rounded-lg border border-slate-200 text-sm text-center focus:outline-none focus:border-blue-500"></td>
+                    <td class="p-3 text-center"><button onclick="hapusAnggota(${a.id})" class="text-rose-500 hover:text-rose-700 font-medium text-xs">Hapus</button></td>
+                </tr>`; no++;
+            });
+            document.getElementById('isiTabelAnggota').innerHTML = html || '<tr><td colspan="4" class="p-6 text-center text-slate-400">Belum ada data anggota</td></tr>';
+        }
+        function ubahNominalDonasi(id, nilai) {
+            const a = dataUtama.anggota.find(x=>x.id===id);
+            if(!a) return;
+            a.nominal = Number(nilai)||0;
+            simpanPermanen(); hitungRekapUtama();
+        }
+        function hapusAnggota(id) {
+            if(confirm('Yakin menghapus anggota ini?')){
+                dataUtama.anggota = dataUtama.anggota.filter(x=>x.id!==id);
+                simpanPermanen(); tampilSemuaData();
+            }
+        }
+
+        function simpanPengeluaranBaru() {
+            const ket = document.getElementById('inputKetPengeluaran').value.trim();
+            const nom = Number(document.getElementById('inputNomPengeluaran').value)||0;
+            if(!ket || nom<=0) return alert('Lengkapi keterangan dan nominal pengeluaran!');
+            dataUtama.pengeluaran.unshift({id:Date.now(), keterangan:ket, nominal:nom});
+            simpanPermanen(); document.getElementById('inputKetPengeluaran').value=''; document.getElementById('inputNomPengeluaran').value=''; tampilSemuaData(); alert('✅ Pengeluaran dicatat!');
+        }
+        function tampilDaftarPengeluaran() {
+            let html='';
+            if(dataUtama.pengeluaran.length===0){ html='<p class="text-center text-slate-400 py-8">Belum ada catatan pengeluaran</p>'; }
+            else{
+                dataUtama.pengeluaran.forEach(p=>{
+                    html += `<div class="flex justify-between items-center py-3 px-4 border-b border-slate-100 last:border-0 hover:bg-slate-50 rounded-xl">
+                        <span class="text-sm">${p.keterangan}</span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-bold text-rose-600">${formatRupiah(p.nominal)}</span>
+                            <button onclick="hapusPengeluaran(${p.id})" class="text-rose-500 hover:text-rose-700 font-medium text-xs">Hapus</button>
+                        </div>
+                    </div>`;
+                });
+            }
+            document.getElementById('isiDaftarPengeluaran').innerHTML = html;
+        }
+        function hapusPengeluaran(id) {
+            if(confirm('Salah catat? Yakin hapus pengeluaran ini?')){
+                dataUtama.pengeluaran = dataUtama.pengeluaran.filter(x=>x.id!==id);
+                simpanPermanen(); tampilSemuaData();
+            }
+        }
+
+        function tampilLaporanRingkas() {
+            const totalDonasi = dataUtama.anggota.reduce((s,a)=>s+Number(a.nominal||0),0);
+            const totalKeluar = dataUtama.pengeluaran.reduce((s,a)=>s+Number(a.nominal||0),0);
+            const saldoAkhir = (dataUtama.saldoAwal||0) + totalDonasi - totalKeluar;
+
+            let daftarTeks=''; let urut=1;
+            dataUtama.anggota.forEach(a=>{daftarTeks += `${urut}. ${a.nama} = ${formatRupiah(a.nominal)}\n`; urut++;});
+
+            document.getElementById('isiLaporanRingkas').innerHTML = `
+            <div class="space-y-3">
+                <div class="flex justify-between py-2 border-b border-slate-100"><span>Saldo Awal Kas</span><span class="font-bold text-blue-600">${formatRupiah(dataUtama.saldoAwal)}</span></div>
+                <div class="flex justify-between py-2 border-b border-slate-100"><span>Total Donasi Semua Anggota</span><span class="font-bold text-emerald-600">${formatRupiah(totalDonasi)}</span></div>
+                <div class="flex justify-between py-2 border-b border-slate-100"><span>Total Seluruh Pengeluaran</span><span class="font-bold text-rose-600">${formatRupiah(totalKeluar)}</span></div>
+                <div class="flex justify-between py-3 font-bold text-lg border-t-2 border-slate-200 mt-2"><span>SALDO AKHIR KAS</span><span class="${saldoAkhir<0?'text-rose-600':'text-indigo-600'}">${formatRupiah(saldoAkhir)}</span></div>
+                <div class="mt-6 p-4 bg-slate-50 rounded-xl">
+                    <h4 class="font-bold mb-2">Salinan Laporan untuk Grup:</h4>
+                    <pre class="text-xs text-slate-700 whitespace-pre-wrap break-all">📊 LAPORAN KAS M3CB - KELURAHAN KASUNYATAN
+🗓 Per Tanggal: ${new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}
+
+━━━━━━━━━━━━━━━━━━━━━
+⚙️ SALDO AWAL: ${formatRupiah(dataUtama.saldoAwal)}
+
+👥 DAFTAR ANGGOTA & DONASI:
+${daftarTeks}
+━━━━━━━━━━━━━━━━━━━━━
+✅ Total Donasi: ${formatRupiah(totalDonasi)}
+❌ Total Pengeluaran: ${formatRupiah(totalKeluar)}
+💰 SALDO SAAT INI: ${formatRupiah(saldoAkhir)}
+━━━━━━━━━━━━━━━━━━━━━
+Laporan Resmi M3CB Kelurahan Kasunyatan</pre>
+                </div>
+            </div>`;
+        }
+
+        function salinLaporanGrup() {
+            const totalDonasi = dataUtama.anggota.reduce((s,a)=>s+Number(a.nominal||0),0);
+            const totalKeluar = dataUtama.pengeluaran.reduce((s,a)=>s+Number(a.nominal||0),0);
+            const saldoAkhir = (dataUtama.saldoAwal||0) + totalDonasi - totalKeluar;
+            let daftarTeks=''; let urut=1;
+            dataUtama.anggota.forEach(a=>{daftarTeks += `${urut}. ${a.nama} = ${formatRupiah(a.nominal)}\n`; urut++;});
+
+            const teksLaporan = `📊 LAPORAN KAS M3CB - KELURAHAN KASUNYATAN
+🗓 Per Tanggal: ${new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}
+
+━━━━━━━━━━━━━━━━━━━━━
+⚙️ SALDO AWAL: ${formatRupiah(dataUtama.saldoAwal)}
+
+👥 DAFTAR ANGGOTA & DONASI:
+${daftarTeks}
+━━━━━━━━━━━━━━━━━━━━━
+✅ Total Donasi: ${formatRupiah(totalDonasi)}
+❌ Total Pengeluaran: ${formatRupiah(totalKeluar)}
+💰 SALDO SAAT INI: ${formatRupiah(saldoAkhir)}
+━━━━━━━━━━━━━━━━━━━━━
+Laporan Resmi M3CB Kelurahan Kasunyatan`;
+
+            navigator.clipboard.writeText(teksLaporan).then(()=>alert('✅ Laporan berhasil disalin! Langsung tempel di grup WhatsApp ya'));
+        }
+
+        function unduhBackup() {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([JSON.stringify(dataUtama,null,2)],{type:'application/json'}));
+            a.download = `Backup_Kas_M3CB_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+        }
+        function pulihkanDariFile() {
+            const f = document.getElementById('filePulihkan').files[0];
+            if(!f) return alert('Pilih file cadangan dulu ya!');
+            const baca = new FileReader();
+            baca.onload = e=>{
+                try{
+                    const d = JSON.parse(e.target.result);
+                    if(!d.anggota || !d.pengeluaran) throw '';
+                    if(confirm('⚠️ PERINGATAN: Semua data saat ini akan diganti dengan data dari file cadangan! Yakin lanjut?')){
+                        dataUtama = d;
+                        simpanPermanen(); tampilSemuaData(); alert('✅ Data berhasil dipulihkan sepenuhnya!');
+                    }
+                }catch{alert('❌ File ini bukan file cadangan yang benar atau rusak!')}
+            };
+            baca.readAsText(f);
+        }
+    </script>
 </body>
 </html>
